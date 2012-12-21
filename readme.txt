@@ -82,7 +82,7 @@ The next shortcode will create a list of social following buttons that allow vis
 
 = How can I see the social icons in action? =
 
-Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio theme demo](http://wpdemo.synved.com/stripefolio/shortcodes/) where you can see the social sharing and following features in action
+Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio theme demo](http://wpdemo.synved.com/stripefolio/) where you can see the social sharing and following features in action
 
 == Screenshots ==
 
