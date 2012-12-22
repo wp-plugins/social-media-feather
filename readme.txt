@@ -40,7 +40,7 @@ The plugin also offers widgets for sharing and following buttons that you can pl
 * Super lightweight social sharing and following
 * Comes with a default modern icon set
 * For further customization more [social icons skins](http://synved.com/product/feather-extra-social-icons/ "Add 8 extra social icon skins to the Social Media Feather plugin!") are available
-* Potential skins can be quadrupled by [fading and greying out](http://synved.com/product/feather-grey-fade/ "Quadruple the amount of available social icon skins!") social icons
+* Available skins can be customized with cool effects like [fading and greying out](http://synved.com/product/feather-grey-fade/ "Customize any of the available social icon skins with 2 cool effects!") social icons
 
 = Example Shortcodes =
 
@@ -66,7 +66,7 @@ The next shortcode will create a list of social following buttons that allow vis
 
 * [WordPress Social Media Feather Official Page](http://synved.com/wordpress-social-media-feather/ "WordPress Social Media Feather – lightweight social sharing and following")
 * [Extra Social Icons Skins](http://synved.com/product/feather-extra-social-icons/ "Add 8 extra social icon skins to the Social Media Feather plugin!")
-* [Grey Fade addon that can grey out and fade out any social icons set](http://synved.com/product/feather-grey-fade/ "Quadruple the amount of available social icon skins!")
+* [Grey Fade addon that can grey out and fade out any social icons set](http://synved.com/product/feather-grey-fade/ "Customize any of the available social icon skins with 2 cool effects!")
 * [Our own site](http://synved.com/) where you can see social sharing and following in action
 * [Stripefolio theme demo](http://wpdemo.synved.com/stripefolio/) where you can see some of the social sharing and following features in action
 * [The free Stripefolio WordPress portfolio theme](http://synved.com/stripefolio-free-wordpress-portfolio-theme/ "A free WordPress theme that serves as a readable blog and a full-screen portfolio showcase") the Official page for the theme in the above demo link
@@ -89,7 +89,7 @@ Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio them
 1. An example of how the sharing or following buttons appear in the front-end at 64 pixel resolution
 2. An example of how the sharing or following buttons appear in the front-end at 24 pixel resolution
 3. An example of how the sharing or following buttons appear in the front-end using the [Extra Social Icons addon](http://synved.com/product/feather-extra-social-icons/ "Add 8 extra social icon skins to the Social Media Feather plugin!")
-4. Showing how using the [Grey Fade addon](http://synved.com/product/feather-grey-fade/ "Quadruple the amount of available social icon skins!") transforms the sharing or following buttons in the front-end
+4. Showing how using the [Grey Fade addon](http://synved.com/product/feather-grey-fade/ "Customize any of the available social icon skins with 2 cool effects!") transforms the sharing or following buttons in the front-end
 5. A demo of how providers can be customized in the back-end
 6. An view of some of the settings that can be customized in the back-end
 7. This shows the available social sharing and following widgets and their settings 
