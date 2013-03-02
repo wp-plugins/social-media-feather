@@ -731,7 +731,7 @@ function synved_option_item_sanitize_value($id, $name, $value, array $item = nul
 	
 	if ($sanitize_raw != null)
 	{
-		return $sanitize_raw->Invoke(array($value, $name, $id));
+		return $sanitize_raw->Invoke(array($value, $name, $id, $item));
 	}
 	
 	$value = synved_option_item_sanitize_value_basic($item, $value, $default);
@@ -771,7 +771,7 @@ function synved_option_item_sanitize_value($id, $name, $value, array $item = nul
 	{
 		if ($sanitize != null)
 		{
-			$value = $sanitize->Invoke(array($value, $name, $id));
+			$value = $sanitize->Invoke(array($value, $name, $id, $item));
 		}
 		
 		return $value;

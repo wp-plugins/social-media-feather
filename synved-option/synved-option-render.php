@@ -346,7 +346,7 @@ function synved_option_render_item($id, $name, $item = null, $render = false, $p
 			}
 			case 'color':
 			{
-				$out .= '<div style="position:relative;">';
+				$out .= '<div style="position:relative; float: left;">';
 				$out .= '<input name="' . $out_name . '" id="' . $out_id . '" type="text" value="' . esc_attr($value) . '" class="code medium-text color-input"' . $placeholder . ' />';
 				$out .= '<div class="synved-option-color-input-picker" style="background:white;border:solid 1px #ccc;display:none;position:absolute;top:100%;left:0;z-index:10000;"></div>';
 				$out .= '</div>';
@@ -419,6 +419,11 @@ function synved_option_render_item($id, $name, $item = null, $render = false, $p
 				
 				break;
 			}
+		}
+		
+		if ($hint != null)
+		{
+			$out .= ' <span class="snvdopt"><a class="button synved-option-reset-button" title="' . __('Set value to default hinted background value', 'synved-option') . '" style="display: inline-block; padding: 0; vertical-align: middle; cursor: pointer;"><span class="ui-icon ui-icon-arrowrefresh-1-w"> </span></a></span>';
 		}
 	}
 	

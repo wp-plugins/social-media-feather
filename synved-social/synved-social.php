@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.0
+Version: 1.2.1
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100000000);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.0');
+define('SYNVED_SOCIAL_VERSION', 100020001);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.2.1');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -226,6 +226,10 @@ function synved_social_service_provider_list($context, $raw = false)
 				'link' => 'http://www.reddit.com/submit?url=%%url%%&title=%%title%%',
 				'title' => __('Share on Reddit'),
 			),
+			'pinterest' => array(
+				'link' => 'http://pinterest.com/pin/create/button/?url=%%url%%&media=%%image%%&description=%%title%%',
+				'title' => __('Pin it with Pinterest'),
+			),
 			'linkedin' => array(
 				'link' => 'http://www.linkedin.com/shareArticle?mini=true&url=%%url%%&title=%%title%%',
 				'title' => __('Share on Linkedin'),
@@ -250,6 +254,11 @@ function synved_social_service_provider_list($context, $raw = false)
 			'google_plus' => array(
 				'link' => 'http://plus.google.com/needlessly_long_google_plus_id',
 				'title' => __('Follow us on Google+'),
+			),
+			'pinterest' => array(
+				'link' => 'http://pinterest.com/MyUserName/',
+				'title' => __('Our board on Pinterest'),
+				'default-display' => false
 			),
 			'linkedin' => array(
 				'link' => 'http://www.linkedin.com/in/yourid',
@@ -367,10 +376,132 @@ function synved_social_icon_skin_current()
 	return synved_social_icon_skin_get();
 }
 
+function synved_social_icon_skin_get_size_list($skin)
+{
+	$path = synved_social_path();
+	$skin_path = isset($skin['path']) ? $skin['path'] : ($path . '/image/social/regular/');
+	
+	$sizes = glob($skin_path . '*', GLOB_ONLYDIR);
+	$sizes = array_map('basename', $sizes);
+	$size_list = array();
+	
+	foreach ($sizes as $size_dir)
+	{
+		$size_parts = explode('x', $size_dir);
+		$size_width = (int) $size_parts[0];
+		
+		if ($size_width != null)
+		{
+			$size_list[] = $size_width;
+		}
+	}
+	
+	sort($size_list, SORT_NUMERIC);
+	
+	return $size_list;
+}
+
+function synved_social_icon_skin_get_image_list_raw($skin, $name_list, $forced_size = null)
+{
+	$path = synved_social_path();
+	$uri = synved_social_path_uri();
+	$skin_default = synved_social_icon_skin_get('regular');
+	
+	$skin_default_path = isset($skin_default['path']) ? $skin_default['path'] : ($path . '/image/social/regular/');
+	$skin_default_uri = isset($skin_default['uri']) ? $skin_default['uri'] : ($uri . '/image/social/regular/');
+	$skin_sel_path = isset($skin['path']) ? $skin['path'] : ($path . '/image/social/regular/');
+	$skin_sel_uri = isset($skin['uri']) ? $skin['uri'] : ($uri . '/image/social/regular/');
+	
+	$default_size_list = synved_social_icon_skin_get_size_list($skin_default);
+	$sel_size_list = synved_social_icon_skin_get_size_list($skin);
+	
+	$skin_list = array(
+		array(
+			'path' => $skin_sel_path,
+			'uri' => $skin_sel_uri,
+			'list' => $sel_size_list,
+		),
+		array(
+			'path' => $skin_default_path,
+			'uri' => $skin_default_uri,
+			'list' => $default_size_list,
+		),
+	);
+	
+	$image_list = array();
+	
+	foreach ($name_list as $name)
+	{
+		foreach ($skin_list as $skin)
+		{
+			$skin_path = $skin['path'];
+			$skin_uri = $skin['uri'];
+			$size_list = $skin['list'];
+			$size_count = count($size_list);
+			
+			$image_size_list = array();
+			$image_size_list_skipped = array();
+		
+			for ($i = 0; $i < $size_count; $i++)
+			{
+				$image_size = $size_list[$i];
+				$image_sub = '/' . $name . '.png';
+				$size_name = $image_size . 'x' . $image_size;
+				$image_path = $skin_path . $size_name . $image_sub;
+				$image_uri = $skin_uri . $size_name . $image_sub;
+		
+				if (file_exists($image_path))
+				{
+					$image_size_meta = array(
+						'name' => $size_name,
+						'sub' => $image_sub,
+						'path' => $image_path,
+						'uri' => $image_uri,
+					);
+				
+					foreach ($image_size_list_skipped as $image_size_skipped)
+					{
+						$image_size_list[$image_size_skipped] = $image_size_meta;
+					}
+				
+					$image_size_skipped = array();
+					$image_size_list[$image_size] = $image_size_meta;
+				
+					if ($forced_size != null && ($image_size > $forced_size || $i == $size_count - 1) && !isset($image_size_list[$forced_size]))
+					{
+						$image_size_list[$forced_size] = $image_size_meta;
+					}
+				}
+				else
+				{
+					$image_size_skipped[] = $image_size;
+				}
+			}
+		
+			if ($image_size_list != null)
+			{
+				break;
+			}
+		}
+		
+		$image_list[$name] = $image_size_list;
+	}
+	
+	return $image_list;
+}
+
+function synved_social_icon_skin_get_image_list($skin, $name_list, $forced_size = null)
+{
+	$image_list = synved_social_icon_skin_get_image_list_raw($skin, $name_list, $forced_size);
+	$image_list = apply_filters('synved_social_skin_image_list', $image_list, $skin, $name_list, $forced_size);
+	
+	return $image_list;
+}
+
 function synved_social_button_list_shortcode($atts, $content = null, $code = '', $context = null)
 {
 	$vars_def = array('url' => null, 'title' => null);
-	$params_def = array('skin' => null, 'size' => null, 'spacing' => null);
+	$params_def = array('skin' => null, 'size' => null, 'spacing' => null, 'class' => null, 'show' => null, 'hide' => null, 'prompt' => null, 'custom1' => null, 'custom2' => null, 'custom3' => null);
 	$vars = shortcode_atts($vars_def, $atts);
 	$params = shortcode_atts($params_def, $atts);
 	$vars = array_filter($vars);
@@ -396,6 +527,66 @@ function synved_social_share_shortcode($atts, $content = null, $code = '')
 function synved_social_follow_shortcode($atts, $content = null, $code = '')
 {
 	return synved_social_button_list_shortcode($atts, $content, $code, 'follow');
+}
+
+function synved_social_button_list_markup_item_out($out_item)
+{
+	$out = null;
+	$tag = isset($out_item['tag']) ? $out_item['tag'] : null;
+	$content = isset($out_item['content']) ? $out_item['content'] : null;
+	$list = isset($out_item['child-list']) ? $out_item['child-list'] : null;
+	
+	unset($out_item['tag']);
+	unset($out_item['content']);
+	unset($out_item['child-list']);
+	
+	if ($tag != null)
+	{
+		$out .= '<' . $tag;
+		
+		foreach ($out_item as $attr_name => $attr_value)
+		{
+			if (in_array($attr_name, array('href', 'src')))
+			{
+				$attr_value = esc_url($attr_value);
+			}
+			else
+			{
+				$attr_value = esc_attr($attr_value);
+			}
+			
+			$out .= ' ' . $attr_name . '="' . $attr_value . '"';
+		}
+		
+		if ($list != null || $content != null)
+		{
+			$out .= '>';
+		}
+		else
+		{
+			$out .= ' />';
+		}
+	}
+	
+	if ($list != null)
+	{
+		foreach ($list as $child)
+		{
+			$out .= synved_social_button_list_markup_item_out($child);
+		}
+	}
+	
+	if ($content != null)
+	{
+		$out .= $content;
+	}
+
+	if ($tag != null && ($list != null || $content != null))
+	{
+		$out .= '</' . $tag . '>';
+	}
+	
+	return $out;
 }
 
 function synved_social_button_list_markup($context, $vars = null, $buttons = null, $params = null)
@@ -437,6 +628,27 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		$vars['url'] = $url;
 	}
 	
+	if (!isset($vars['image']))
+	{    
+		$id = get_the_ID();
+		$image_src = null;
+		
+		if ($id == null)
+		{
+			global $post;
+		
+			$id = $post->ID;
+		}
+		
+		if ($id != null)
+		{
+			$src = wp_get_attachment_image_src(get_post_thumbnail_id($id), 'full');
+			$image_src = $src[0];
+		}
+		
+		$vars['image'] = $image_src;
+	}
+	
 	if (!isset($vars['title']))
 	{
 		$vars['title'] = get_the_title();
@@ -444,7 +656,32 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 	
 	if (!isset($vars['message']))
 	{
-		$vars['message'] = __('Hey check this out');
+		$message = synved_option_get('synved_social', 'share_message_default');
+		
+		if ($message == null)
+		{
+			$message = __('Hey check this out', 'synved-social');
+		}
+		
+		$vars['message'] = $message;
+	}
+	
+	if (isset($params['class']) && !is_array($params['class']))
+	{
+		$class = explode(' ', $params['class']);
+		$params['class'] = array_map('trim', $class);
+	}
+	
+	if (isset($params['show']) && !is_array($params['show']))
+	{
+		$show = explode(',', $params['show']);
+		$params['show'] = array_map('trim', $show);
+	}
+	
+	if (isset($params['hide']) && !is_array($params['hide']))
+	{
+		$hide = explode(',', $params['hide']);
+		$params['hide'] = array_map('trim', $hide);
 	}
 	
 	$vars = apply_filters('synved_social_markup_variable_list', $vars, $context, $params);
@@ -454,7 +691,7 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 	{
 		$vars = urlencode_deep($vars);
 		
-		// XXX the + character is not recognized as space
+		// The next line is required because the + character is not recognized as space
 		$vars['message'] = str_replace('+', '%20', $vars['message']);
 	}
 	
@@ -490,40 +727,6 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		}
 	}
 	
-	$sizes = glob($skin_path . '*', GLOB_ONLYDIR);
-	$sizes = array_map('basename', $sizes);
-	$size_list = array();
-	
-	foreach ($sizes as $size_dir)
-	{
-		$size_parts = explode('x', $size_dir);
-		$size_width = (int) $size_parts[0];
-		
-		if ($size_width != null)
-		{
-			$size_list[] = $size_width;
-		}
-	}
-	
-	sort($size_list, SORT_NUMERIC);
-	$size_count = count($size_list);
-	$size_used = $size;
-	
-	if (array_search($size_used, $size_list) === false)
-	{
-		for ($i = 0; $i < $size_count; $i++)
-		{
-			$size_width = $size_list[$i];
-			
-			if ($size_width > $size || $i == ($size_count - 1))
-			{
-				$size_used = $size_width;
-				
-				break;
-			}
-		}
-	}
-	
 	$icon_spacing = synved_option_get('synved_social', 'icon_spacing');
 	$spacing = 5;
 	
@@ -537,21 +740,49 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		$spacing = $params['spacing'];
 	}
 	
-	$class = null;
+	$class = isset($params['class']) ? $params['class'] : null;
+	$show = isset($params['show']) ? $params['show'] : null;
+	$hide = isset($params['hide']) ? $params['hide'] : null;
 	
-	if (isset($params['class']))
+	if ($show != null)
 	{
-		$class = $params['class'];
+		$button_list = array();
 		
-		if (!is_array($class))
+		foreach ($show as $button_key)
 		{
-			$class = array($class);
+			if (isset($buttons[$button_key]))
+			{
+				$button_list[$button_key] = $buttons[$button_key];
+				
+				unset($buttons[$button_key]);
+			}
+		}
+		
+		foreach ($buttons as $button_key => $button_item)
+		{
+			$button_list[$button_key] = $button_item;
+		}
+		
+		$buttons = $button_list;
+	}
+	
+	if ($hide != null)
+	{
+		foreach ($hide as $button_key)
+		{
+			if (isset($buttons[$button_key]))
+			{
+				unset($buttons[$button_key]);
+			}
 		}
 	}
 	
 	$out = null;
+	$out_list = array();
+	$out_params = array();
 	$index = 0;
 	$count = count($buttons);
+	$image_list = synved_social_icon_skin_get_image_list($skin, array_keys($buttons), $size);
 	
 	foreach ($buttons as $button_key => $button_item)
 	{
@@ -576,31 +807,17 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 			}
 		}
 		
-		$image_sub = '/' . $button_key . '.png';
-		$image_size = $size_used;
-		$size_name = $image_size . 'x' . $image_size;
-		$image_path = $skin_path . $size_name . $image_sub;
-		$image_uri = $skin_uri . $size_name . $image_sub;
-		
-		while (!file_exists($image_path))
-		{
-			$size_index = array_search($image_size, $size_list);
-			
-			if ($size_index === false || $size_index == $size_count - 1)
-			{
-				break;
-			}
-			
-			$image_size = $size_list[$size_index + 1];
-			$size_name = $image_size . 'x' . $image_size;
-			$image_path = $skin_path . $size_name . $image_sub;
-			$image_uri = $skin_uri . $size_name . $image_sub;
-		}
+		$image = $image_list[$button_key];
+		$image_size = $image[$size];
+		$image_sub = $image_size['sub'];
+		$image_path = $image_size['path'];
+		$image_uri = $image_size['uri'];
 		
 		if (!file_exists($image_path))
 		{
-			$image_path = apply_filters('synved_social_button_image_path', $image_path, $image_uri, $size_used, $image_sub, $skin_path, $skin_uri, $size_list);
-			$image_uri = apply_filters('synved_social_button_image_uri', $image_uri, $image_path, $size_used, $image_sub, $skin_path, $skin_uri, $size_list);
+			$size_list = array_keys($image);
+			$image_path = apply_filters('synved_social_button_image_path', $image_path, $image_uri, $size, $image_sub, $skin_path, $skin_uri, $size_list);
+			$image_uri = apply_filters('synved_social_button_image_uri', $image_uri, $image_path, $size, $image_sub, $skin_path, $skin_uri, $size_list);
 		}
 		
 		$style = 'margin:0;';
@@ -622,16 +839,42 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 			$class_extra = ' ' . implode(' ', $class);
 		}
 		
-		$out .= '<a class="synved-social-button synved-social-button-' . $context . $class_extra . '" target="_blank" rel="nofollow" title="' . $title . '" href="' . esc_url($href) . '">';
-		$out .= '<img alt="' . esc_attr($button_key) . '" class="synved-share-image" width="' . $size . '" style="width:' . $size . 'px;' . $style . '" src="' . esc_attr($image_uri) . '" />';
-		$out .= '</a>';
+		$out_button = array(
+			'tag' => 'a',
+			'class' => 'synved-social-button synved-social-button-' . $context .  ' synved-social-provider-' . $button_key . $class_extra,
+			'data-provider' => $button_key,
+			'target' => $button_key != 'mail' ? '_blank' : '',
+			'rel' => 'nofollow',
+			'title' => $title,
+			'href' => $href,
+			'child-list' => array(
+				array(
+					'tag' => 'img',
+					'alt' => $button_key,
+					'class' => 'synved-share-image',
+					'width' => $size,
+					'style' => 'width:' . $size . 'px;' . $style,
+					'src' => $image_uri,
+				)
+			)
+		);
+		
+		$out_list[$button_key] = $out_button;
+		$out_params[$button_key] = array();
 		
 		$index++;
 	}
 	
+	$out_list = apply_filters('synved_social_button_list_markup', $out_list, $out_params, $context, $vars, $params);
+	
+	foreach ($out_list as $button_key => $out_item)
+	{
+		$out .= synved_social_button_list_markup_item_out($out_item);
+	}
+	
 	if (synved_option_get('synved_social', 'show_credit'))
 	{
-		$out .= '<a target="_blank" title="' . __('WordPress Social Media Feather', 'synved-social') . '" href="http://synved.com/wordpress-social-media-feather/" style="color:#444; text-decoration:none; font-size:8px; margin-left:5px;vertical-align:10px;white-space:nowrap;"><span>' . __('by ', 'synved-social') . '<img style="margin:0;padding:0;" alt="feather" src="' . $uri . '/image/icon.png" /></a></span>'; 
+		$out .= '<a target="_blank" title="' . __('WordPress Social Media Feather', 'synved-social') . '" href="http://synved.com/wordpress-social-media-feather/" style="color:#444; text-decoration:none; font-size:8px; margin-left:5px;vertical-align:10px;white-space:nowrap;"><span>' . __('by ', 'synved-social') . '</span><img style="margin:0;padding:0;" alt="feather" src="' . $uri . '/image/icon.png" /></a>'; 
 	}
 	
 	return $out;

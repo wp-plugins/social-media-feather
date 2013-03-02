@@ -21,18 +21,32 @@ function synved_social_provider_settings()
 		if (isset($share_providers[$provider_name]))
 		{
 			$display_set .= ',share=Share';
-			$display_default = 'share';
+			
+			if (!isset($share_providers[$provider_name]['default-display']) || $share_providers[$provider_name]['default-display'])
+			{
+				$display_default = 'share';
+			}
 		}
 		
 		if (isset($follow_providers[$provider_name]))
 		{
 			$display_set .= ',follow=Follow';
-			$display_default = 'follow';
 			
 			if (isset($share_providers[$provider_name]))
 			{
 				$display_set .= ',both=Share & Follow';
-				$display_default = 'both';
+			}
+			
+			if (!isset($follow_providers[$provider_name]['default-display']) || $follow_providers[$provider_name]['default-display'])
+			{
+				if ($display_default == 'share')
+				{
+					$display_default = 'both';
+				}
+				else
+				{
+					$display_default = 'follow';
+				}
 			}
 		}
 		
@@ -100,7 +114,7 @@ $synved_social_options = array(
 	'sections' => array(
 		'section_general' => array(
 			'label' => __('General Settings', 'synved-social'), 
-			'tip' => __('Settings affecting the general behavior of the plugin', 'synved-social'),
+			'tip' => __('Settings affecting the general behaviour of the plugin', 'synved-social'),
 			'settings' => array(
 				'use_shortlinks' => array(
 					'default' => false, 'label' => __('Use Shortlinks', 'synved-social'), 
@@ -110,21 +124,59 @@ $synved_social_options = array(
 					'default' => true, 'label' => __('Shortcodes In Widgets', 'synved-social'), 
 					'tip' => __('Allow shortcodes in Text widgets', 'synved-social')
 				),
+				'show_credit' => array(
+					'default' => true, 'label' => __('Show Credit', 'synved-social'), 
+					'tip' => __('Display a small icon with a link to the Social Media Feather page', 'synved-social')
+				),
+				'share_message_default' => array(
+					'default' => __('Hey check this out', 'synved-social'), 'label' => __('Default Message', 'synved-social'), 
+					'tip' => __('Specify the default message to use when sharing content, this is what gets replaced into the %%message%% variable', 'synved-social')
+				),
+			)
+		),
+		'section_automatic_display' => array(
+			'label' => __('Automatic Display', 'synved-social'), 
+			'tip' => __('Settings affecting automating appending of social buttons to post contents', 'synved-social'),
+			'settings' => array(
 				'automatic_share' => array(
 					'default' => false, 'label' => __('Display Sharing Buttons', 'synved-social'), 
-					'tip' => __('Tries to automatically append sharing buttons to your posts', 'synved-social')
+					'tip' => __('Tries to automatically append sharing buttons to your posts (disable for specific posts by setting custom field synved_social_exclude or synved_social_exclude_share to yes)', 'synved-social')
 				),
 				'automatic_share_post_types' => array(
 					'type' => 'custom',
 					'default' => 'post',
-					'set' => synved_option_callback('synved_social_automatic_share_post_types_set', array('post', 'page')),
+					'set' => synved_option_callback('synved_social_automatic_append_post_types_set', array('post', 'page')),
 					'label' => __('Share Post Types', 'synved-social'), 
-					'tip' => __('Post types for which automatic appending should be attempted (CTRL + click to select multiple ones)', 'synved-social'),
-					'render' => 'synved_social_automatic_share_post_types_render'
+					'tip' => __('Post types for which automatic appending for share buttons should be attempted (CTRL + click to select multiple ones)', 'synved-social'),
+					'render' => 'synved_social_automatic_append_post_types_render'
 				),
-				'show_credit' => array(
-					'default' => true, 'label' => __('Show Credit', 'synved-social'), 
-					'tip' => __('Display a small icon with a link to the Social Media Feather page', 'synved-social')
+				'automatic_follow' => array(
+					'default' => false, 'label' => __('Display Follow Buttons', 'synved-social'), 
+					'tip' => __('Tries to automatically append follow buttons to your posts (disable for specific posts by setting custom field synved_social_exclude or synved_social_exclude_follow to yes)', 'synved-social')
+				),
+				'automatic_follow_post_types' => array(
+					'type' => 'custom',
+					'default' => 'post',
+					'set' => synved_option_callback('synved_social_automatic_append_post_types_set', array('post', 'page')),
+					'label' => __('Follow Post Types', 'synved-social'), 
+					'tip' => __('Post types for which automatic appending for follow buttons should be attempted (CTRL + click to select multiple ones)', 'synved-social'),
+					'render' => 'synved_social_automatic_append_post_types_render'
+				),
+				'automatic_follow_before_share' => array(
+					'default' => false, 'label' => __('Follow Before Share', 'synved-social'), 
+					'tip' => __('When automatically appending, place follow buttons before share buttons', 'synved-social')
+				),
+				'automatic_append_prefix' => array(
+					'default' => '', 'label' => __('Prefix Markup', 'synved-social'), 
+					'tip' => __('When automatically appending, place this markup before the buttons markup', 'synved-social')
+				),
+				'automatic_append_separator' => array(
+					'default' => '<br/>', 'label' => __('Separator Markup', 'synved-social'), 
+					'tip' => __('When automatically appending both, use this markup as separator between the set of share buttons and the set of follow buttons', 'synved-social')
+				),
+				'automatic_append_postfix' => array(
+					'default' => '', 'label' => __('Postfix Markup', 'synved-social'), 
+					'tip' => __('When automatically appending, place this markup after all of the buttons markup', 'synved-social')
 				),
 			)
 		),
@@ -154,6 +206,14 @@ $synved_social_options = array(
 					'style' => 'addon-important',
 					'label' => __('Grey Fade Effect', 'synved-social'), 
 					'tip' => synved_option_callback('synved_social_option_addon_grey_fade_tip', __('Click the button to install the "Grey Fade" addon, get it <a target="_blank" href="http://synved.com/product/feather-grey-fade/">here</a>.', 'synved-social'))
+				),
+				'addon_light_prompt' => array(
+					'type' => 'addon',
+					'target' => SYNVED_SOCIAL_ADDON_PATH,
+					'folder' => 'light-prompt',
+					'style' => 'addon-important',
+					'label' => __('Light Prompt Overlay', 'synved-social'), 
+					'tip' => synved_option_callback('synved_social_option_addon_light_prompt_tip', __('Click the button to install the "Light Prompt" addon, get it <a target="_blank" href="http://synved.com/product/feather-light-prompt/">here</a>.', 'synved-social'))
 				),
 				'icon_size' => array(
 					'default' => 48,
@@ -187,6 +247,16 @@ synved_option_register('synved_social', $synved_social_options);
 
 synved_option_include_module_addon_list('synved-social');
 
+
+function synved_social_provider_option_value_sanitize($value, $name, $id, $item)
+{
+	$default = synved_option_item_default($item);
+	
+	if ($value == $default)
+	{
+		
+	}
+}
 
 function synved_social_page_settings_tip($tip, $item)
 {
@@ -269,7 +339,7 @@ function synved_social_icon_skin_render($value, $params, $id, $name, $item)
 }
 
 
-function synved_social_automatic_share_post_types_set($set, $item) 
+function synved_social_automatic_append_post_types_set($set, $item) 
 {
 	if ($set != null && !is_array($set))
 	{
@@ -287,7 +357,7 @@ function synved_social_automatic_share_post_types_set($set, $item)
 	return $set;
 }
 
-function synved_social_automatic_share_post_types_render($value, $params, $id, $name, $item) 
+function synved_social_automatic_append_post_types_render($value, $params, $id, $name, $item) 
 {
 	$uri = synved_social_path_uri();
 	$icons = synved_social_icon_skin_list();
@@ -327,7 +397,15 @@ function synved_social_option_addon_extra_icons_tip($tip, $item)
 {
 	if (synved_option_addon_installed('synved_social', 'addon_extra_icons'))
 	{
-		$tip .= ' <span style="background:#eee;padding:5px 8px;">' . __('The "Extra Social Icons" addon is already installed! You can use the button to re-install it.', 'synved-social') . '</span>';
+		// missing icons for installed extra-icons addon
+		if (!function_exists('synved_social_addon_extra_icons_version'))
+		{
+			$tip .= ' <span style="background:#ecc;padding:5px 8px;">' . __('The "Extra Social Icons" addon is already installed but requires an update for recently added providers, please use your download link or <a href="http://synved.com/about/contact/?subject=Feather%20Extra%20Icons%20new%20link">request a new one</a>', 'synved-social') . '</span>';
+		}
+		else
+		{
+			$tip .= ' <span style="background:#eee;padding:5px 8px;">' . __('The "Extra Social Icons" addon is already installed! You can use the button to re-install it.', 'synved-social') . '</span>';
+		}
 	}
 	
 	return $tip;
@@ -344,6 +422,22 @@ function synved_social_option_addon_grey_fade_tip($tip, $item)
 	else
 	{
 		$tip .= '<div style="clear:both"><p style="font-size:120%;"><b>The <a target="_blank" href="http://synved.com/product/feather-grey-fade/">Grey Fade addon</a> allows you to achieve the effect below, <a target="_blank" href="http://synved.com/product/feather-grey-fade/">get it now</a>!</b></p> <a target="_blank" href="http://synved.com/product/feather-grey-fade/"><img src="' . $uri . '/image/social-feather-grey-fade-demo.png" /></a></div>';
+	}
+	
+	return $tip;
+}
+
+function synved_social_option_addon_light_prompt_tip($tip, $item)
+{
+	$uri = synved_social_path_uri();
+	
+	if (synved_option_addon_installed('synved_social', 'addon_light_prompt'))
+	{
+		$tip .= ' <span style="background:#eee;padding:5px 8px;">' . __('The "Light Prompt" addon is already installed! You can use the button to re-install it.', 'synved-social') . '</span>';
+	}
+	else
+	{
+		$tip .= '<div style="clear:both"><p style="font-size:120%;"><b>The <a target="_blank" href="http://synved.com/product/feather-light-prompt/">Light Prompt addon</a> allows you to achieve the nice overlay below when users click on a share button, <a target="_blank" href="http://synved.com/product/feather-light-prompt/">get it now</a>!</b></p> <a target="_blank" href="http://synved.com/product/feather-light-prompt/"><img src="' . $uri . '/image/social-feather-light-prompt-demo.png" /></a></div>';
 	}
 	
 	return $tip;
@@ -517,16 +611,76 @@ function synved_social_register_widgets()
 	register_widget('SynvedSocialFollowWidget');
 }
 
-function synved_social_wp_the_content($content)
+function synved_social_wp_the_content($content, $id = null)
 {
-	if (synved_option_get('synved_social', 'automatic_share'))
+	$exclude = false;
+	$exclude_share = false;
+	$exclude_follow = false;
+	
+	$extra = null;
+	$separator = null;
+	
+	if ($id == null)
 	{
-		$post_type = get_post_type();
-		$type_list = synved_option_get('synved_social', 'automatic_share_post_types');
+		$id = get_the_ID();
 		
-		if (in_array($post_type, $type_list))
+		if ($id == null)
 		{
-			$content .= synved_social_share_markup();
+			global $post;
+		
+			$id = $post->ID;
+		}
+	}
+
+	if ($id != null)	
+	{
+		$exclude = get_post_meta($id, 'synved_social_exclude', true) == 'yes' ? true : false;
+		$exclude_share = get_post_meta($id, 'synved_social_exclude_share', true) == 'yes' ? true : false;
+		$exclude_follow = get_post_meta($id, 'synved_social_exclude_follow', true) == 'yes' ? true : false;
+	}
+	
+	if ($exclude == false)
+	{
+		if ($exclude_share == false && synved_option_get('synved_social', 'automatic_share'))
+		{
+			$post_type = get_post_type();
+			$type_list = synved_option_get('synved_social', 'automatic_share_post_types');
+		
+			if (in_array($post_type, $type_list))
+			{
+				$extra .= synved_social_share_markup();
+			}
+		}
+	
+		if ($extra != null)
+		{
+			$separator = synved_option_get('synved_social', 'automatic_append_separator');
+		}
+	
+		if ($exclude_follow == false && synved_option_get('synved_social', 'automatic_follow'))
+		{
+			$post_type = get_post_type();
+			$type_list = synved_option_get('synved_social', 'automatic_follow_post_types');
+		
+			if (in_array($post_type, $type_list))
+			{
+				if (synved_option_get('synved_social', 'automatic_follow_before_share'))
+				{
+					$extra = synved_social_follow_markup() . $separator . $extra;
+				}
+				else
+				{
+					$extra .= $separator . synved_social_follow_markup();
+				}
+			}
+		}
+	
+		if ($extra != null)
+		{
+			$prefix = synved_option_get('synved_social', 'automatic_append_prefix');
+			$postfix = synved_option_get('synved_social', 'automatic_append_postfix');
+			
+			$content .= $prefix . $extra . $postfix;
 		}
 	}
 	
@@ -579,24 +733,45 @@ function synved_social_init()
   		}
   	}
   	
-  	$sh_params = array(
+  	$providers_share = array_keys(synved_social_service_provider_list('share'));
+  	$providers_follow = array_keys(synved_social_service_provider_list('follow'));
+  	
+  	$providers_params = array(
+			'show' => __('Specify a comma-separated list of %1$s providers to show and their order, possible values are %2$s', 'synved-social'),
+			'hide' => __('Specify a comma-separated list of %1$s providers to hide, possible values are %2$s', 'synved-social'),
+		);
+  	
+  	$common_params = array(
 			'skin' => __('Specify which skin to use for the icons', 'synved-social'),
 			'size' => sprintf(__('Specify the size for the icons, possible values are %s', 'synved-social'), $size_set),
 			'spacing' => __('Determines how much blank space there will be between the buttons, in pixels', 'synved-social'),
+			'class' => __('Select additional CSS classes for the buttons, separated by spaces', 'synved-social'),
 		);
 		
   	$share_params = array(
 			'url' => __('URL to use for the sharing buttons, default is the current post URL', 'synved-social'),
 			'title' => __('Title to use for the sharing buttons, default is the current post title', 'synved-social'),
 		);
+		
+		$follow_params = array(
+		);
+		
+		$share_params = array_merge($common_params, $share_params);
+		$follow_params = array_merge($common_params, $follow_params);
+		
+		foreach ($providers_params as $param_name => $param_value)
+		{
+			$share_params[$param_name] = sprintf($param_value, 'share', implode(', ', $providers_share));
+			$follow_params[$param_name] = sprintf($param_value, 'follow', implode(', ', $providers_follow));
+		}
 	
 		synved_shortcode_item_help_set('feather_share', array(
 			'tip' => __('Creates a list of buttons for social sharing as selected in the Social Media options', 'synved-social'),
-			'parameters' => array_merge($sh_params, $share_params)
+			'parameters' => $share_params
 		));
 		synved_shortcode_item_help_set('feather_follow', array(
 			'tip' => __('Creates a list of buttons for social following as selected in the Social Media options', 'synved-social'),
-			'parameters' => $sh_params
+			'parameters' => $follow_params
 		));
 	}
 	else
@@ -618,7 +793,7 @@ function synved_social_init()
 	
 	if (synved_option_get('synved_social', 'automatic_share'))
 	{
-  	add_filter('the_content', 'synved_social_wp_the_content');
+  	add_filter('the_content', 'synved_social_wp_the_content', 10, 2);
 	}
 }
 

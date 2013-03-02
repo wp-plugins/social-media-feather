@@ -1,9 +1,9 @@
 === Social Media Feather ===
 Contributors: Synved
 Donate link: http://synved.com/wordpress-social-media-feather/
-Tags: shortcode, shortcodes, link, links, url, permalink, permalinks, time, icons, button, buttons, free, content, plugin, Share, sharing, page, pages, widget, CSS, list, media, profile, shortlinks, social, social media, twitter, google, Facebook, Reddit, youtube, bookmark, bookmarks, bookmarking, linkedin, image, edit, manage, mail, Post, posts, Style, seo, title
+Tags: shortcode, shortcodes, link, links, url, permalink, permalinks, time, icons, button, buttons, free, content, plugin, Share, sharing, page, pages, widget, CSS, list, media, profile, shortlinks, social, social media, Like, twitter, google, Facebook, Reddit, youtube, bookmark, bookmarks, bookmarking, pinterest, linkedin, image, edit, manage, mail, Post, posts, Style, seo, title, filter
 Requires at least: 3.1
-Tested up to: 3.4.2
+Tested up to: 3.5.1
 Stable tag: trunk
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -12,7 +12,7 @@ Super lightweight, simple, nice, modern looking and effective social sharing and
 
 == Description ==
 
-[WordPress Social Media Feather](http://synved.com/wordpress-social-media-feather/ "WordPress Social Media Feather – lightweight social sharing and following") is a super lightweight free social media WordPress plugin that allows you to quickly and painlessly add **social sharing and following** features to all your posts, pages and custom post types.
+[WordPress Social Media Feather](http://synved.com/wordpress-social-media-feather/ "Lightweight WordPress social sharing and following") is a super lightweight free social media WordPress plugin that allows you to quickly and painlessly add **social sharing and following** features to all your posts, pages and custom post types.
 
 The primary goal behind the plugin is to provide very lightweight WordPress social sharing and following that doesn’t add any unnecessary burden to your site and especially on your users.
 
@@ -24,7 +24,7 @@ By keeping load times at a minimum, you ensure that all the social sharing aspec
 
 On the other hand, given the widespread focus on WordPress social media integration, your site will still provide social bookmarks to improve visibility of your posts and content and improve your overall global reach.
 
-The WordPress social media sharing offered by the plugin includes all major social sharing providers like Facebook, Twitter, Google+, reddit, Linkedin and even e-mail.
+The WordPress social media sharing offered by the plugin includes all major social sharing providers like Facebook, Twitter, Google+, reddit, Pinterest, Linkedin and even e-mail.
 
 The plugin also offers widgets for sharing and following buttons that you can place in any widgetized area in your site. Widgets also expose some settings to tweak appearance.
 
@@ -32,8 +32,8 @@ The plugin also offers widgets for sharing and following buttons that you can pl
 * Integrated WordPress social sharing
 * WordPress social sharing and following widgets
 * Supports all major providers of social features
-* Sharing with Facebook, Twitter, Google+, reddit, Linkedin and e-mail
-* Following on Facebook, Twitter, Google+, Linkedin, YouTube or RSS Feed
+* Sharing with Facebook, Twitter, Google+, reddit, Pinterest, Linkedin and e-mail
+* Following on Facebook, Twitter, Google+, Pinterest, Linkedin, YouTube or RSS Feed
 * Each social provider can be enabled or disabled
 * Ability to select what services each provider will be exposed for
 * Full customization for titles and URLs for each provider
@@ -61,6 +61,17 @@ The next shortcode will create a list of social following buttons that allow vis
 
 The next shortcode will create a list of social following buttons that allow visitors to follow you, using the "Balloon" icons skin with a size of 64 pixels:
 `[feather_follow skin="balloon" size="64"]`
+
+= Template Tags =
+
+If you don't want to use shortcodes but instead prefer to use PHP directly, there are 2 PHP functions/template tags you can use.
+
+For sharing buttons you can use:
+`synved_social_share_markup();`
+
+For following buttons you can use:
+`synved_social_follow_markup();`
+
 
 = Related Links: =
 
@@ -96,7 +107,12 @@ Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio them
 
 == Changelog ==
 
+= 1.2.1 =
+* Added Pinterest as sharing and following network
+* Added ability to automatically append following buttons as well
+* Added ability to disable automatic appending for posts with custom fields
+* Added class, show and hide parameters to shortcodes
+
 = 1.0 =
 * First public release.
-
 

@@ -25,8 +25,8 @@ include_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'synved-option-setting.ph
 
 
 define('SYNVED_OPTION_LOADED', true);
-define('SYNVED_OPTION_VERSION', 100030009);
-define('SYNVED_OPTION_VERSION_STRING', '1.3.9');
+define('SYNVED_OPTION_VERSION', 100040001);
+define('SYNVED_OPTION_VERSION_STRING', '1.4.1');
 
 
 $synved_option = array();

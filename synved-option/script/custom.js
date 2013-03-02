@@ -96,5 +96,24 @@ jQuery(document).ready(function() {
   });
 	
 	jQuery('.synved-option-tag-selector').suggest(ajaxurl + '?action=ajax-tag-search&tax=post_tag', {multiple: true, multipleSep: ','});
+	
+	jQuery('.synved-option-reset-button').click(function (e) {
+		var jthis = jQuery(this);
+		var input = jthis.parentsUntil('tr').find('input, textarea');
+		
+		if (input.size() > 0)
+		{
+			var placeholder = input.attr('placeholder');
+			
+			if (placeholder != null)
+			{
+				input.val(placeholder);
+			}
+		}
+		
+		e.preventDefault();
+		
+		return false;
+	});
 });
 
