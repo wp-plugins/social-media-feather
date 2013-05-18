@@ -142,6 +142,10 @@ $synved_social_options = array(
 					'default' => false, 'label' => __('Display Sharing Buttons', 'synved-social'), 
 					'tip' => __('Tries to automatically append sharing buttons to your posts (disable for specific posts by setting custom field synved_social_exclude or synved_social_exclude_share to yes)', 'synved-social')
 				),
+				'automatic_share_single' => array(
+					'default' => false, 'label' => __('Sharing Single Posts', 'synved-social'), 
+					'tip' => __('Sharing buttons are only displayed on single posts/pages and not on archive pages like blog/category/tag/author pages', 'synved-social')
+				),
 				'automatic_share_post_types' => array(
 					'type' => 'custom',
 					'default' => 'post',
@@ -153,6 +157,10 @@ $synved_social_options = array(
 				'automatic_follow' => array(
 					'default' => false, 'label' => __('Display Follow Buttons', 'synved-social'), 
 					'tip' => __('Tries to automatically append follow buttons to your posts (disable for specific posts by setting custom field synved_social_exclude or synved_social_exclude_follow to yes)', 'synved-social')
+				),
+				'automatic_follow_single' => array(
+					'default' => false, 'label' => __('Follow Single Posts', 'synved-social'), 
+					'tip' => __('Follow buttons are only displayed on single posts/pages and not on archive pages like blog/category/tag/author pages', 'synved-social')
 				),
 				'automatic_follow_post_types' => array(
 					'type' => 'custom',
@@ -637,6 +645,16 @@ function synved_social_wp_the_content($content, $id = null)
 		$exclude = get_post_meta($id, 'synved_social_exclude', true) == 'yes' ? true : false;
 		$exclude_share = get_post_meta($id, 'synved_social_exclude_share', true) == 'yes' ? true : false;
 		$exclude_follow = get_post_meta($id, 'synved_social_exclude_follow', true) == 'yes' ? true : false;
+		
+		if (!$exclude_share && synved_option_get('synved_social', 'automatic_share_single'))
+		{
+			$exclude_share = !is_single($id);
+		}
+		
+		if (!$exclude_follow && synved_option_get('synved_social', 'automatic_follow_single'))
+		{
+			$exclude_follow = !is_single($id);
+		}
 	}
 	
 	if ($exclude == false)

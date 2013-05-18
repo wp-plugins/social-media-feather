@@ -3,7 +3,7 @@
 Module Name: Synved Option
 Description: Easily add options to your themes or plugins with as little or as much coding as you want. Just create an array of your options, the rest is automated. If you need extra flexibility you can then use the powerful API provided to achieve any level of customization.
 Author: Synved
-Version: 1.3.9
+Version: 1.4.1
 Author URI: http://synved.com/
 License: GPLv2
 

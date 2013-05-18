@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.2.1
+Version: 1.2.2
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100020001);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.2.1');
+define('SYNVED_SOCIAL_VERSION', 100020002);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.2.2');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -851,6 +851,7 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 				array(
 					'tag' => 'img',
 					'alt' => $button_key,
+					'title' => $title,
 					'class' => 'synved-share-image',
 					'width' => $size,
 					'style' => 'width:' . $size . 'px;' . $style,
@@ -867,14 +868,17 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 	
 	$out_list = apply_filters('synved_social_button_list_markup', $out_list, $out_params, $context, $vars, $params);
 	
-	foreach ($out_list as $button_key => $out_item)
+	if ($out_list != null)
 	{
-		$out .= synved_social_button_list_markup_item_out($out_item);
-	}
+		foreach ($out_list as $button_key => $out_item)
+		{
+			$out .= synved_social_button_list_markup_item_out($out_item);
+		}
 	
-	if (synved_option_get('synved_social', 'show_credit'))
-	{
-		$out .= '<a target="_blank" title="' . __('WordPress Social Media Feather', 'synved-social') . '" href="http://synved.com/wordpress-social-media-feather/" style="color:#444; text-decoration:none; font-size:8px; margin-left:5px;vertical-align:10px;white-space:nowrap;"><span>' . __('by ', 'synved-social') . '</span><img style="margin:0;padding:0;" alt="feather" src="' . $uri . '/image/icon.png" /></a>'; 
+		if (synved_option_get('synved_social', 'show_credit'))
+		{
+			$out .= '<a target="_blank" rel="nofollow" title="' . __('WordPress Social Media Feather', 'synved-social') . '" href="http://synved.com/wordpress-social-media-feather/" style="color:#444; text-decoration:none; font-size:8px; margin-left:5px;vertical-align:10px;white-space:nowrap;"><span>' . __('by ', 'synved-social') . '</span><img style="margin:0;padding:0;" alt="feather" src="' . $uri . '/image/icon.png" /></a>'; 
+		}
 	}
 	
 	return $out;

@@ -107,6 +107,9 @@ Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio them
 
 == Changelog ==
 
+= 1.2.2 =
+* Added option to limit automatic appending to single post/pages
+
 = 1.2.1 =
 * Added Pinterest as sharing and following network
 * Added ability to automatically append following buttons as well
