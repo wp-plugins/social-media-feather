@@ -107,6 +107,12 @@ Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio them
 
 == Changelog ==
 
+= 1.2.3 =
+* Fix check for single posts to include all singular pages
+* Set image dimensions attributes to match icon size
+* Fix for images stacking vertically in some themes
+* Fix for automatic follow not shown when automatic share was disabled
+
 = 1.2.2 =
 * Added option to limit automatic appending to single post/pages
 

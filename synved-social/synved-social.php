@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.2.2
+Version: 1.2.3
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100020002);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.2.2');
+define('SYNVED_SOCIAL_VERSION', 100020003);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.2.3');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -852,9 +852,10 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 					'tag' => 'img',
 					'alt' => $button_key,
 					'title' => $title,
-					'class' => 'synved-share-image',
+					'class' => 'synved-share-image synved-social-image synved-social-image-' . $context,
 					'width' => $size,
-					'style' => 'width:' . $size . 'px;' . $style,
+					'height' => $size,
+					'style' => 'display: inline;width:' . $size . 'px;' . 'height:' . $size . 'px;' . $style,
 					'src' => $image_uri,
 				)
 			)
@@ -877,7 +878,7 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 	
 		if (synved_option_get('synved_social', 'show_credit'))
 		{
-			$out .= '<a target="_blank" rel="nofollow" title="' . __('WordPress Social Media Feather', 'synved-social') . '" href="http://synved.com/wordpress-social-media-feather/" style="color:#444; text-decoration:none; font-size:8px; margin-left:5px;vertical-align:10px;white-space:nowrap;"><span>' . __('by ', 'synved-social') . '</span><img style="margin:0;padding:0;" alt="feather" src="' . $uri . '/image/icon.png" /></a>'; 
+			$out .= '<a class="synved-social-credit" target="_blank" rel="nofollow" title="' . __('WordPress Social Media Feather', 'synved-social') . '" href="http://synved.com/wordpress-social-media-feather/" style="color:#444; text-decoration:none; font-size:8px; margin-left:5px;vertical-align:10px;white-space:nowrap;"><span>' . __('by ', 'synved-social') . '</span><img style="display: inline;margin:0;padding:0;width:16px;height:16px;" width="16" height="16" alt="feather" src="' . $uri . '/image/icon.png" /></a>'; 
 		}
 	}
 	
