@@ -14,7 +14,7 @@ Super lightweight, simple, nice, modern looking and effective social sharing and
 
 [WordPress Social Media Feather](http://synved.com/wordpress-social-media-feather/ "Lightweight WordPress social sharing and following") is a super lightweight free social media WordPress plugin that allows you to quickly and painlessly add **social sharing and following** features to all your posts, pages and custom post types.
 
-Now the only social sharing and bookmarking plugin with full **support for the Retina and high resolution displays** as used in iPad 5 and other devices!
+Now the only social sharing and bookmarking plugin with full support for the **Retina and high resolution displays** as used in iPad 5 and other devices!
 
 The primary goal behind the plugin is to provide very lightweight WordPress social sharing and following that doesn’t add any unnecessary burden to your site and especially on your users.
 
