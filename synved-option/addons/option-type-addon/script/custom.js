@@ -109,7 +109,7 @@ jQuery(document).ready(function() {
 		  		container: containerId,
 		  		//drop_element: '',
 		  		file_data_name: fileField,
-		  		max_file_size: '3mb',
+		  		max_file_size: '8mb',
 		  		max_file_count: 1,
 					flash_swf_url: SynvedOptionVars.flash_swf_url,
 					silverlight_xap_url: SynvedOptionVars.silverlight_xap_url,

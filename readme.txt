@@ -1,7 +1,7 @@
 === Social Media Feather ===
 Contributors: Synved
 Donate link: http://synved.com/wordpress-social-media-feather/
-Tags: shortcode, shortcodes, link, links, url, permalink, permalinks, time, icons, button, buttons, free, content, plugin, Share, sharing, page, pages, widget, CSS, list, media, profile, shortlinks, social, social media, Like, twitter, google, Facebook, Reddit, youtube, bookmark, bookmarks, bookmarking, pinterest, linkedin, image, edit, manage, mail, Post, posts, Style, seo, title, filter, follow, following
+Tags: shortcode, shortcodes, link, links, url, permalink, permalinks, time, icons, button, buttons, free, content, plugin, Share, sharing, page, pages, widget, CSS, list, media, profile, shortlinks, social, social media, Like, twitter, google, Facebook, Reddit, youtube, bookmark, bookmarks, bookmarking, pinterest, linkedin, image, edit, manage, mail, Post, posts, Style, seo, title, filter, follow, following, high resolution, retina, ipad
 Requires at least: 3.1
 Tested up to: 3.5.2
 Stable tag: trunk
@@ -13,6 +13,8 @@ Super lightweight, simple, nice, modern looking and effective social sharing and
 == Description ==
 
 [WordPress Social Media Feather](http://synved.com/wordpress-social-media-feather/ "Lightweight WordPress social sharing and following") is a super lightweight free social media WordPress plugin that allows you to quickly and painlessly add **social sharing and following** features to all your posts, pages and custom post types.
+
+Now the only social sharing and bookmarking plugin with full **support for the Retina and high resolution displays** as used in iPad 5 and other devices!
 
 The primary goal behind the plugin is to provide very lightweight WordPress social sharing and following that doesn’t add any unnecessary burden to your site and especially on your users.
 
@@ -30,6 +32,7 @@ The plugin also offers widgets for sharing and following buttons that you can pl
 
 = Features =
 * Integrated WordPress social sharing
+* Full support for **Retina** and high resolution displays
 * WordPress social sharing and following widgets
 * Supports all major providers of social features
 * Sharing with Facebook, Twitter, Google+, reddit, Pinterest, Linkedin and e-mail
@@ -38,6 +41,7 @@ The plugin also offers widgets for sharing and following buttons that you can pl
 * Ability to select what services each provider will be exposed for
 * Full customization for titles and URLs for each provider
 * Super lightweight social sharing and following
+* Fast unobtrusive social bookmarks for your site
 * Comes with a default modern icon set
 * For further customization more [social icons skins](http://synved.com/product/feather-extra-social-icons/ "Add 8 extra social icon skins to the Social Media Feather plugin!") are available
 * Available skins can be customized with cool effects like [fading and greying out](http://synved.com/product/feather-grey-fade/ "Customize any of the available social icon skins with 2 cool effects!") social icons
@@ -106,6 +110,11 @@ Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio them
 7. This shows the available social sharing and following widgets and their settings 
 
 == Changelog ==
+
+= 1.3.0 =
+* Added support for Retina and other high resolution displays
+* Fix exclusion checks for custom post types
+* Added option to share full URL instead of single post/page URL
 
 = 1.2.3 =
 * Fix check for single posts to include all singular pages

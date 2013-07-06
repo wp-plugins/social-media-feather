@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.2.3
+Version: 1.3.0
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100020003);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.2.3');
+define('SYNVED_SOCIAL_VERSION', 100030000);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.3.0');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -331,7 +331,7 @@ function synved_social_icon_skin_list()
 		$icons = array_merge($icons, $icons_extra);
 	}
 	
-	return $icons;
+	return apply_filters('synved_social_icon_skin_list', $icons);;
 }
 
 function synved_social_icon_skin_get($name = null)
@@ -610,18 +610,58 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		}
 	}
 	
+	$id = get_the_ID();
+	
+	if ($id == null)
+	{
+		global $post;
+	
+		$id = $post->ID;
+	}
+	
 	if (!isset($vars['url']))
 	{
-		$use_shortlinks = synved_option_get('synved_social', 'use_shortlinks');
-		$url = get_permalink();
+		$full_url = synved_option_get('synved_social', 'share_full_url');
+		$url = home_url($_SERVER['REQUEST_URI']);
 		
-		if ($use_shortlinks && function_exists('wp_get_shortlink')) 
+		if ($id != null)
 		{
-			$short = wp_get_shortlink(null, null, 'query');
+			$post_full_url = strtolower(get_post_meta($id, 'synved_social_share_full_url', true));
 			
-			if ($short != null)
+			if ($post_full_url != null)
 			{
-				$url = $short;
+				if ($post_full_url == 'yes')
+				{
+					$full_url = true;
+				}
+				else if ($post_full_url == 'no')
+				{
+					$full_url = false;
+				}
+			}
+		}
+		
+		if (!$full_url)
+		{
+			$post_types = get_post_types();
+		
+			unset($post_types['revision']);
+			unset($post_types['nav_menu_item']);
+		
+			if (is_singular($post_types))
+			{
+				$use_shortlinks = synved_option_get('synved_social', 'use_shortlinks');
+				$url = get_permalink();
+		
+				if ($use_shortlinks && function_exists('wp_get_shortlink')) 
+				{
+					$short = wp_get_shortlink(null, null, 'query');
+			
+					if ($short != null)
+					{
+						$url = $short;
+					}
+				}
 			}
 		}
 		
@@ -629,16 +669,8 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 	}
 	
 	if (!isset($vars['image']))
-	{    
-		$id = get_the_ID();
+	{
 		$image_src = null;
-		
-		if ($id == null)
-		{
-			global $post;
-		
-			$id = $post->ID;
-		}
 		
 		if ($id != null)
 		{
@@ -777,12 +809,24 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		}
 	}
 	
-	$out = null;
 	$out_list = array();
 	$out_params = array();
+	$image_list = array();
+	$icon_resolution = synved_option_get('synved_social', 'icon_resolution');
+	$resolutions = array('normal' => $size, 'hidef' => $size * 2);
+	
+	if ($icon_resolution == 'single')
+	{
+		$resolutions = array('single' => $size * 2);
+	}
+	
+	foreach ($resolutions as $resolution_name => $resolution_size)
+	{
+		$image_list[$resolution_name] = synved_social_icon_skin_get_image_list($skin, array_keys($buttons), $resolution_size);
+	}
+	
 	$index = 0;
 	$count = count($buttons);
-	$image_list = synved_social_icon_skin_get_image_list($skin, array_keys($buttons), $size);
 	
 	foreach ($buttons as $button_key => $button_item)
 	{
@@ -807,78 +851,95 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 			}
 		}
 		
-		$image = $image_list[$button_key];
-		$image_size = $image[$size];
-		$image_sub = $image_size['sub'];
-		$image_path = $image_size['path'];
-		$image_uri = $image_size['uri'];
+		$icon_sizes = $resolutions;
 		
-		if (!file_exists($image_path))
+		foreach ($icon_sizes as $icon_def => $icon_size)
 		{
-			$size_list = array_keys($image);
-			$image_path = apply_filters('synved_social_button_image_path', $image_path, $image_uri, $size, $image_sub, $skin_path, $skin_uri, $size_list);
-			$image_uri = apply_filters('synved_social_button_image_uri', $image_uri, $image_path, $size, $image_sub, $skin_path, $skin_uri, $size_list);
-		}
+			$image = $image_list[$icon_def][$button_key];
+			$image_size = $image[$icon_size];
+			$image_sub = $image_size['sub'];
+			$image_path = $image_size['path'];
+			$image_uri = $image_size['uri'];
 		
-		$style = 'margin:0;';
+			if (!file_exists($image_path))
+			{
+				$size_list = array_keys($image);
+				$image_path = apply_filters('synved_social_button_image_path', $image_path, $image_uri, $icon_size, $image_sub, $skin_path, $skin_uri, $size_list);
+				$image_uri = apply_filters('synved_social_button_image_uri', $image_uri, $image_path, $icon_size, $image_sub, $skin_path, $skin_uri, $size_list);
+			}
 		
-		if (true)
-		{
-			$style .= 'margin-bottom:' . $spacing . 'px;';
-		}
+			$style = 'margin:0;';
 		
-		if ($index < $count - 1)
-		{
-			$style .= 'margin-right:' . $spacing . 'px;';
-		}
+			if (true)
+			{
+				$style .= 'margin-bottom:' . $spacing . 'px;';
+			}
 		
-		$class_extra = null;
+			if ($index < $count - 1)
+			{
+				$style .= 'margin-right:' . $spacing . 'px;';
+			}
 		
-		if ($class != null)
-		{
-			$class_extra = ' ' . implode(' ', $class);
-		}
+			$class_extra = null;
 		
-		$out_button = array(
-			'tag' => 'a',
-			'class' => 'synved-social-button synved-social-button-' . $context .  ' synved-social-provider-' . $button_key . $class_extra,
-			'data-provider' => $button_key,
-			'target' => $button_key != 'mail' ? '_blank' : '',
-			'rel' => 'nofollow',
-			'title' => $title,
-			'href' => $href,
-			'child-list' => array(
-				array(
-					'tag' => 'img',
-					'alt' => $button_key,
-					'title' => $title,
-					'class' => 'synved-share-image synved-social-image synved-social-image-' . $context,
-					'width' => $size,
-					'height' => $size,
-					'style' => 'display: inline;width:' . $size . 'px;' . 'height:' . $size . 'px;' . $style,
-					'src' => $image_uri,
+			if ($class != null)
+			{
+				$class_extra = ' ' . implode(' ', $class);
+			}
+		
+			$out_button = array(
+				'tag' => 'a',
+				'class' => 'synved-social-button synved-social-button-' . $context .  ' synved-social-resolution-' . $icon_def . ' synved-social-provider-' . $button_key . $class_extra,
+				'data-provider' => $button_key,
+				'target' => $button_key != 'mail' ? '_blank' : '',
+				'rel' => 'nofollow',
+				'title' => $title,
+				'href' => $href,
+				'style' => 'font-size: 0px; width:' . $size . 'px;' . 'height:' . $size . 'px;' . $style,
+				'child-list' => array(
+					array(
+						'tag' => 'img',
+						'alt' => $button_key,
+						'title' => $title,
+						'class' => 'synved-share-image synved-social-image synved-social-image-' . $context,
+						'width' => $size,
+						'height' => $size,
+						'style' => 'display: inline; margin: 0; padding: 0; border: none; box-shadow: none;',
+						'src' => $image_uri,
+					)
 				)
-			)
-		);
-		
-		$out_list[$button_key] = $out_button;
-		$out_params[$button_key] = array();
+			);
+			
+			$out_list[$icon_def][$button_key] = $out_button;
+			$out_params[$icon_def][$button_key] = array('icon-resolution' => $icon_def);
+		}
 		
 		$index++;
 	}
 	
-	$out_list = apply_filters('synved_social_button_list_markup', $out_list, $out_params, $context, $vars, $params);
+	$out = null;
 	
 	if ($out_list != null)
 	{
-		foreach ($out_list as $button_key => $out_item)
+		foreach ($out_list as $def_key => $def_list)
 		{
-			$out .= synved_social_button_list_markup_item_out($out_item);
+			$out_list[$def_key] = apply_filters('synved_social_button_list_markup', $def_list, $out_params[$def_key], $context, $vars, $params);
 		}
+	}
 	
+	if ($out_list != null)
+	{
+		foreach ($out_list as $def_key => $def_list)
+		{
+			foreach ($def_list as $button_key => $out_item)
+			{
+				$out .= synved_social_button_list_markup_item_out($out_item);
+			}
+		}
+		
 		if (synved_option_get('synved_social', 'show_credit'))
 		{
-			$out .= '<a class="synved-social-credit" target="_blank" rel="nofollow" title="' . __('WordPress Social Media Feather', 'synved-social') . '" href="http://synved.com/wordpress-social-media-feather/" style="color:#444; text-decoration:none; font-size:8px; margin-left:5px;vertical-align:10px;white-space:nowrap;"><span>' . __('by ', 'synved-social') . '</span><img style="display: inline;margin:0;padding:0;width:16px;height:16px;" width="16" height="16" alt="feather" src="' . $uri . '/image/icon.png" /></a>'; 
+			$out .= '<a class="synved-social-credit" target="_blank" rel="nofollow" title="' . __('WordPress Social Media Feather', 'synved-social') . '" href="http://synved.com/wordpress-social-media-feather/" style="color:#444; text-decoration:none; font-size:8px; margin-left:5px;vertical-align:10px;white-space:nowrap;"><span>' . __('by ', 'synved-social') . '</span><img style="display: inline;margin:0;padding:0;width:16px;height:16px;" width="16" height="16" alt="feather" src="' . $uri . '/image/icon.png" /></a>';
 		}
 	}
 	

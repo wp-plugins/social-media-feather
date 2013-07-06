@@ -852,6 +852,39 @@ function synved_option_wp_upgrader_source_selection($source, $remote_source, $ob
 	return $source;
 }
 
+function synved_option_wp_plugin_action_links($links, $file)
+{
+	global $synved_option_list;
+	
+	if ($synved_option_list != null)
+	{
+		foreach ($synved_option_list as $id => $list)
+		{
+			$items = synved_option_item_list($id);
+			$pages = $synved_option_list[$id]['pages'];
+			
+			foreach ($pages as $name => $page)
+			{
+				$link_label = synved_option_item_property($page, 'link-label');
+				$link_target = synved_option_item_property($page, 'link-target');
+				$link_url = synved_option_page_link_url($id, $name, $item);
+				
+				if ($link_label == null)
+				{
+					$link_label = __('Settings');
+				}
+				
+				if ($file == $link_target) 
+				{
+					$links[] = '<a href="' . $link_url . '">' . $link_label . '</a>';
+				}
+			}
+		}
+	}
+
+	return $links;
+}
+
 function synved_option_admin_enqueue_scripts()
 {
 	$uri = synved_option_path_uri();
@@ -941,6 +974,7 @@ function synved_option_ajax()
 add_action('after_setup_theme', 'synved_option_wp_after_setup_theme');
 add_action('init', 'synved_option_wp_init');
 add_filter('upgrader_source_selection', 'synved_option_wp_upgrader_source_selection', 9, 3);
+add_filter('plugin_action_links', 'synved_option_wp_plugin_action_links', 10, 2);
 
 if (is_admin())
 {

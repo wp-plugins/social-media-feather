@@ -111,6 +111,7 @@ $synved_social_options = array(
 	'label' => 'Social Media',
 	'title' => 'Social Media Feather',
 	'tip' => synved_option_callback('synved_social_page_settings_tip'),
+	'link-target' => plugin_basename(synved_plugout_module_path_get('synved-social', 'provider')),
 	'sections' => array(
 		'section_general' => array(
 			'label' => __('General Settings', 'synved-social'), 
@@ -119,6 +120,10 @@ $synved_social_options = array(
 				'use_shortlinks' => array(
 					'default' => false, 'label' => __('Use Shortlinks', 'synved-social'), 
 					'tip' => __('Allows for shortened URLs to be used when sharing content if a shortening plugin is installed', 'synved-social')
+				),
+				'share_full_url' => array(
+					'default' => false, 'label' => __('Share Full URL', 'synved-social'), 
+					'tip' => __('Determines whether to always share the full URL or just the post permalink. You can override this for individual posts by setting the "synved_social_share_full_url" custom field to either "yes" or "no"', 'synved-social')
 				),
 				'shortcode_widgets' => array(
 					'default' => true, 'label' => __('Shortcodes In Widgets', 'synved-social'), 
@@ -227,7 +232,13 @@ $synved_social_options = array(
 					'default' => 48,
 					'set' => '16=16x16,24=24x24,32=32x32,48=48x48,64=64x64,96=96x96',
 					'label' => __('Icon Size', 'synved-social'), 
-					'tip' => __('Select the size in pixels for the icons', 'synved-social')
+					'tip' => __('Select the size in pixels for the icons. Note: for high resolution displays like Retina the maximum size is 64x64.', 'synved-social')
+				),
+				'icon_resolution' => array(
+					'default' => 'single',
+					'set' => 'single=Single,double=Double',
+					'label' => __('Icon Resolution', 'synved-social'), 
+					'tip' => __('Select what icon resolutions will be used. Single might make the icons slightly blurry on low resolution displays. Double will always look the best but will consume more bandwidth.', 'synved-social')
 				),
 				'icon_spacing' => array(
 					'default' => 5,
@@ -270,7 +281,7 @@ function synved_social_page_settings_tip($tip, $item)
 {
 	if (!function_exists('synved_shortcode_version'))
 	{
-		$tip .= ' <div style="background:#f2f2f2;font-size:110%;color:#444;padding:10px 15px;"><b>' . __('Note', 'synved-social') . '</b>: ' . __('The Social Media Feather plugin is fully compatible with our <a target="_blank" href="http://synved.com/wordpress-shortcodes/">WordPress Shortcodes</a> plugin!</span>', 'synved-social') . '</div>';
+		$tip .= ' <div style="background:#f2f2f2;font-size:110%;color:#444;padding:10px 15px;"><b>' . __('Note', 'synved-social') . '</b>: ' . __('The Social Media Feather plugin is fully compatible with our free <a target="_blank" href="http://synved.com/wordpress-shortcodes/">WordPress Shortcodes</a> plugin!</span>', 'synved-social') . '</div>';
 	}
 	
 	if (function_exists('synved_connect_support_social_follow_render'))
@@ -500,6 +511,8 @@ function synved_social_path_uri($path = null)
 function synved_social_wp_register_common_scripts()
 {
 	$uri = synved_social_path_uri();
+	
+	//wp_register_style('synved-social-style', $uri . '/style/style.css', false, '1.0');
 }
 
 function synved_social_enqueue_scripts()
@@ -507,10 +520,41 @@ function synved_social_enqueue_scripts()
 	$uri = synved_social_path_uri();
 	
 	synved_social_wp_register_common_scripts();
+	
+	//wp_enqueue_style('synved-social-style');
 }
 
 function synved_social_print_styles()
 {
+	echo "\r\n" . '<style type="text/css">';
+	
+	echo '
+.synved-social-resolution-single {
+display: inline-block;
+}
+.synved-social-resolution-normal {
+display: inline-block;
+}
+.synved-social-resolution-hidef {
+display: none !important;
+}
+
+@media only screen and (min--moz-device-pixel-ratio: 2),
+only screen and (-o-min-device-pixel-ratio: 2/1),
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min-device-pixel-ratio: 2),
+only screen and (min-resolution: 2dppx),
+only screen and (min-resolution: 192dpi) {
+	.synved-social-resolution-normal {
+	display: none !important;
+	}
+	.synved-social-resolution-hidef {
+	display: inline-block;
+	}
+}
+';
+	
+	echo '</style>' . "\r\n";
 }
 
 function synved_social_admin_enqueue_scripts()
@@ -648,12 +692,12 @@ function synved_social_wp_the_content($content, $id = null)
 		
 		if (!$exclude_share && synved_option_get('synved_social', 'automatic_share_single'))
 		{
-			$exclude_share = !is_singular($id);
+			$exclude_share = !is_singular(synved_option_get('synved_social', 'automatic_share_post_types'));
 		}
 		
 		if (!$exclude_follow && synved_option_get('synved_social', 'automatic_follow_single'))
 		{
-			$exclude_follow = !is_singular($id);
+			$exclude_follow = !is_singular(synved_option_get('synved_social', 'automatic_follow_post_types'));
 		}
 	}
 	
@@ -806,7 +850,7 @@ function synved_social_init()
 	if (!is_admin())
 	{
 		add_action('wp_enqueue_scripts', 'synved_social_enqueue_scripts');
-		//add_action('wp_print_styles', 'synved_social_print_styles');
+		add_action('wp_head', 'synved_social_print_styles');
 	}
 	
 	if (synved_option_get('synved_social', 'automatic_share') || synved_option_get('synved_social', 'automatic_follow'))
