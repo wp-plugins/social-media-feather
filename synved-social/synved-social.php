@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.3.0
+Version: 1.3.1
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100030000);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.3.0');
+define('SYNVED_SOCIAL_VERSION', 100030001);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.3.1');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -624,7 +624,7 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		$full_url = synved_option_get('synved_social', 'share_full_url');
 		$url = home_url($_SERVER['REQUEST_URI']);
 		
-		if ($id != null)
+		if ($id != null && in_the_loop())
 		{
 			$post_full_url = strtolower(get_post_meta($id, 'synved_social_share_full_url', true));
 			
@@ -643,12 +643,7 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		
 		if (!$full_url)
 		{
-			$post_types = get_post_types();
-		
-			unset($post_types['revision']);
-			unset($post_types['nav_menu_item']);
-		
-			if (is_singular($post_types))
+			if ($id != null && in_the_loop())
 			{
 				$use_shortlinks = synved_option_get('synved_social', 'use_shortlinks');
 				$url = get_permalink();
@@ -723,8 +718,9 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 	{
 		$vars = urlencode_deep($vars);
 		
-		// The next line is required because the + character is not recognized as space
+		// urlencode converts space characters to + rather than %20 which messes things up
 		$vars['message'] = str_replace('+', '%20', $vars['message']);
+		$vars['title'] = str_replace('+', '%20', $vars['title']);
 	}
 	
 	$path = synved_social_path();
@@ -889,7 +885,7 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		
 			$out_button = array(
 				'tag' => 'a',
-				'class' => 'synved-social-button synved-social-button-' . $context .  ' synved-social-resolution-' . $icon_def . ' synved-social-provider-' . $button_key . $class_extra,
+				'class' => 'synved-social-button synved-social-button-' . $context .  ' synved-social-size-' . $size .  ' synved-social-resolution-' . $icon_def . ' synved-social-provider-' . $button_key . $class_extra,
 				'data-provider' => $button_key,
 				'target' => $button_key != 'mail' ? '_blank' : '',
 				'rel' => 'nofollow',
@@ -904,7 +900,7 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 						'class' => 'synved-share-image synved-social-image synved-social-image-' . $context,
 						'width' => $size,
 						'height' => $size,
-						'style' => 'display: inline; margin: 0; padding: 0; border: none; box-shadow: none;',
+						'style' => 'display: inline; width:' . $size . 'px;' . 'height:' . $size . 'px; margin: 0; padding: 0; border: none; box-shadow: none;',
 						'src' => $image_uri,
 					)
 				)

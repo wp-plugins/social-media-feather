@@ -111,6 +111,11 @@ Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio them
 
 == Changelog ==
 
+= 1.3.1 =
+* Tweak the new Retina display code to work more accurately
+* Fix for share URL being incorrect in certain cases
+* Fix for addons being deleted by WordPress on automatic upgrade (this will work from the next version, sorry about that!)
+
 = 1.3.0 =
 * Added support for Retina and other high resolution displays
 * Fix exclusion checks for custom post types

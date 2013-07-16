@@ -809,6 +809,18 @@ function synved_option_item_addon_is_installed(array $item)
 					return true;
 				}
 			}
+			
+			$module = synved_option_item_property($item, 'module');
+			
+			if ($module != null)
+			{
+				$addon_list = synved_plugout_module_addon_list($module);
+				
+				if (isset($addon_list[$folder]))
+				{
+					return true;
+				}
+			}
 		}
 	}
 	

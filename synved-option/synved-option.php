@@ -3,7 +3,7 @@
 Module Name: Synved Option
 Description: Easily add options to your themes or plugins with as little or as much coding as you want. Just create an array of your options, the rest is automated. If you need extra flexibility you can then use the powerful API provided to achieve any level of customization.
 Author: Synved
-Version: 1.4.1
+Version: 1.4.2
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -25,8 +25,8 @@ include_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'synved-option-setting.ph
 
 
 define('SYNVED_OPTION_LOADED', true);
-define('SYNVED_OPTION_VERSION', 100040001);
-define('SYNVED_OPTION_VERSION_STRING', '1.4.1');
+define('SYNVED_OPTION_VERSION', 100040002);
+define('SYNVED_OPTION_VERSION_STRING', '1.4.2');
 
 
 $synved_option = array();
@@ -852,6 +852,122 @@ function synved_option_wp_upgrader_source_selection($source, $remote_source, $ob
 	return $source;
 }
 
+function synved_option_wp_upgrader_pre_install($perform, $extra)
+{
+	$upgrade_transfer = get_option('synved_option_wp_upgrade_addon_transfer');
+	
+	if ($upgrade_transfer != null)
+	{
+		$upgrade_transfer_time = get_option('synved_option_wp_upgrade_addon_transfer_time');
+		
+		if ($upgrade_transfer_time == null || (time() - $upgrade_transfer_time > (60 * 60 * 1)))
+		{
+			$upgrade_transfer = null;
+			
+			update_option('synved_option_wp_upgrade_addon_transfer', '');
+		}
+	}
+
+	$module_list = array();
+	
+	if (function_exists('synved_plugout_get_module_list'))
+	{
+		$module_list = synved_plugout_get_module_list();
+	}
+	else 
+	{
+		global $synved_plugout;
+	
+		$module_list = array_keys($synved_plugout['module-list']);
+	}
+	
+	$plugins_dir = WP_PLUGIN_DIR;
+	$plugins_dir = rtrim(str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, realpath($plugins_dir)), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+	
+	$plugin = $extra['plugin'];
+	$plugin_dir = rtrim(str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, realpath(dirname($plugins_dir . $plugin))), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+	
+	$dir = get_temp_dir();
+	$name = time();
+	$dir = $dir . wp_unique_filename($dir, $name) . DIRECTORY_SEPARATOR;
+	$list = array();
+	
+	foreach ($module_list as $module_id)
+	{
+		$addon_list = synved_plugout_module_addon_list($module_id);
+	
+		if ($addon_list != null)
+		{
+			foreach ($addon_list as $addon_name => $addon_file)
+			{
+				if (file_exists($addon_file))
+				{
+					$addon_dir = dirname($addon_file);
+					$parent_dir = dirname($addon_dir);
+					
+					// clean names for comparison
+					$addon_dir = rtrim(str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, realpath($addon_dir)), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+					$parent_dir = rtrim(str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, realpath($parent_dir)), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+					
+					if (strtolower($parent_dir) != strtolower($plugins_dir) && strpos(strtolower($addon_dir), strtolower($plugin_dir)) !== false)
+					{
+						$path = $dir;
+						$diff = substr($addon_dir, strlen($plugins_dir));
+						$path .= $diff;
+						
+						wp_mkdir_p($path);
+						
+						copy_dir($addon_dir, $path);
+						
+						$list[] = array('original' => $addon_dir, 'temporary' => $path);
+					}
+				}
+			}
+		}
+	}
+	
+	if ($list != null)
+	{
+		update_option('synved_option_wp_upgrade_addon_transfer', array('directory' => $dir, 'list' => $list));
+		update_option('synved_option_wp_upgrade_addon_transfer_time', time());
+	}
+	
+	return $perform;
+}
+
+function synved_option_wp_upgrader_post_install($perform, $extra, $result = null)
+{
+	$upgrade_transfer = get_option('synved_option_wp_upgrade_addon_transfer');
+	
+	if ($upgrade_transfer != null)
+	{
+		$list = $upgrade_transfer['list'];
+		
+		foreach ($list as $upgrade_item)
+		{
+			$original = $upgrade_item['original'];
+			$temporary = $upgrade_item['temporary'];
+			
+			wp_mkdir_p($original);
+			
+			copy_dir($temporary, $original);
+		}
+		
+		global $wp_filesystem;
+		
+		if ($wp_filesystem != null)
+		{
+			$directory = $upgrade_transfer['directory'];
+			
+			$wp_filesystem->delete($directory, true);
+		}
+		
+		update_option('synved_option_wp_upgrade_addon_transfer', '');
+	}
+		
+	return $perform;
+}
+
 function synved_option_wp_plugin_action_links($links, $file)
 {
 	global $synved_option_list;
@@ -974,6 +1090,8 @@ function synved_option_ajax()
 add_action('after_setup_theme', 'synved_option_wp_after_setup_theme');
 add_action('init', 'synved_option_wp_init');
 add_filter('upgrader_source_selection', 'synved_option_wp_upgrader_source_selection', 9, 3);
+add_filter('upgrader_pre_install', 'synved_option_wp_upgrader_pre_install', 6, 2);
+add_filter('upgrader_post_install', 'synved_option_wp_upgrader_post_install', 10, 3);
 add_filter('plugin_action_links', 'synved_option_wp_plugin_action_links', 10, 2);
 
 if (is_admin())

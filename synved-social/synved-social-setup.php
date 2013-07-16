@@ -208,6 +208,7 @@ $synved_social_options = array(
 					'type' => 'addon',
 					'target' => SYNVED_SOCIAL_ADDON_PATH,
 					'folder' => 'extra-icons',
+					'module' => 'synved-social',
 					'style' => 'addon-important',
 					'label' => __('Extra Icon Skins', 'synved-social'), 
 					'tip' => synved_option_callback('synved_social_option_addon_extra_icons_tip', __('Click the button to install the "Extra Social Icons" addon, get it <a target="_blank" href="http://synved.com/product/feather-extra-social-icons/">here</a>.', 'synved-social'))
@@ -216,6 +217,7 @@ $synved_social_options = array(
 					'type' => 'addon',
 					'target' => SYNVED_SOCIAL_ADDON_PATH,
 					'folder' => 'grey-fade',
+					'module' => 'synved-social',
 					'style' => 'addon-important',
 					'label' => __('Grey Fade Effect', 'synved-social'), 
 					'tip' => synved_option_callback('synved_social_option_addon_grey_fade_tip', __('Click the button to install the "Grey Fade" addon, get it <a target="_blank" href="http://synved.com/product/feather-grey-fade/">here</a>.', 'synved-social'))
@@ -224,6 +226,7 @@ $synved_social_options = array(
 					'type' => 'addon',
 					'target' => SYNVED_SOCIAL_ADDON_PATH,
 					'folder' => 'light-prompt',
+					'module' => 'synved-social',
 					'style' => 'addon-important',
 					'label' => __('Light Prompt Overlay', 'synved-social'), 
 					'tip' => synved_option_callback('synved_social_option_addon_light_prompt_tip', __('Click the button to install the "Light Prompt" addon, get it <a target="_blank" href="http://synved.com/product/feather-light-prompt/">here</a>.', 'synved-social'))
@@ -536,7 +539,7 @@ display: inline-block;
 display: inline-block;
 }
 .synved-social-resolution-hidef {
-display: none !important;
+display: none;
 }
 
 @media only screen and (min--moz-device-pixel-ratio: 2),
@@ -546,7 +549,7 @@ only screen and (min-device-pixel-ratio: 2),
 only screen and (min-resolution: 2dppx),
 only screen and (min-resolution: 192dpi) {
 	.synved-social-resolution-normal {
-	display: none !important;
+	display: none;
 	}
 	.synved-social-resolution-hidef {
 	display: inline-block;

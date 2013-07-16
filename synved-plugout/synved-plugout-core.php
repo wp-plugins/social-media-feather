@@ -1,8 +1,8 @@
 <?php
 
 define('SYNVED_PLUGOUT_LOADED', true);
-define('SYNVED_PLUGOUT_VERSION', 100000000);
-define('SYNVED_PLUGOUT_VERSION_STRING', '1.0');
+define('SYNVED_PLUGOUT_VERSION', 100000001);
+define('SYNVED_PLUGOUT_VERSION_STRING', '1.0.1');
 
 
 $synved_plugout = array();
@@ -50,6 +50,13 @@ function synved_plugout_path_set($path_id, $path)
 	$synved_plugout['path'][$path_id] = $path;
 }
 
+function synved_plugout_get_module_list()
+{
+	global $synved_plugout;
+	
+	return array_keys($synved_plugout['module-list']);
+}
+
 function synved_plugout_module_register($module_id, $module_prefix = null, $module_name = null)
 {
 	global $synved_plugout;
@@ -70,7 +77,7 @@ function synved_plugout_module_register($module_id, $module_prefix = null, $modu
 	return false;
 }
 
-function synved_plugout_module_path_add($module_id, $type, $path)
+function synved_plugout_module_path_add($module_id, $type, $path, $meta = null)
 {
 	global $synved_plugout;
 	
@@ -78,7 +85,10 @@ function synved_plugout_module_path_add($module_id, $type, $path)
 	{
 		$path = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $path);
 		
-		$synved_plugout['module-list'][$module_id]['path-list'][$type][] = array('path' => $path);
+		$path_object = $meta ? $meta : array();
+		$path_object['path'] = $path;
+		
+		$synved_plugout['module-list'][$module_id]['path-list'][$type][] = $path_object;
 		
 		return true;
 	}
@@ -120,6 +130,7 @@ function synved_plugout_module_path_list_get($module_id, $type, $criteria = null
 				
 						$return_item['type'] = $path_type;
 						$return_item['path'] = $path_object['path'];
+						$return_item['meta'] = $path_object;
 					
 						$return_list[] = $return_item;
 					}
@@ -354,12 +365,11 @@ function synved_plugout_module_addon_scan_path($path, $filter = null)
 
 function synved_plugout_module_addon_list($module_id, $filter = null)
 {
+	$addon_list = array();
 	$path_list = synved_plugout_module_path_list_get($module_id, 'addon');
 	
 	if ($path_list != null)
 	{
-		$addon_list = array();
-		
 		foreach ($path_list as $path_item)
 		{
 			$path = $path_item['path'];
@@ -370,11 +380,60 @@ function synved_plugout_module_addon_list($module_id, $filter = null)
 				$addon_list = array_merge($addon_list, $extra_list);
 			}
 		}
-		
-		return $addon_list;
+	}
+#	
+#	$path_list = synved_plugout_module_path_list_get($module_id, 'addon-plugin');
+#	
+#	if ($path_list != null)
+#	{
+#		foreach ($path_list as $path_item)
+#		{
+#			$path = $path_item['path'];
+#			$addon_plugin = rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'addon-plugin.php';
+#			$extra_list = null;
+#			
+#			if (file_exists($addon_plugin))
+#			{
+#				$content = file_get_contents($addon_plugin);
+#				$match = null;
+#				
+#  			if (preg_match('/\\/(?:\\*)+\\s*(?:synved-)?addon-plugin\\s*\\{\\s*Name\\s*:\\s*(?P<name>[\\w_-]+)(?:\\s*,\\s*\\w+\\s*:\\s*(?:[\\w_-]+))*\\s*\\}/m', $content, $match) > 0)
+#  			{
+#					$addon_name = $match['name'];
+#					$extra_list = array($addon_name => $addon_plugin);
+#  			}
+#			}
+#			
+#			if ($extra_list != null)
+#			{
+#				$addon_list = array_merge($addon_list, $extra_list);
+#			}
+#		}
+#	}
+#	
+	$path_list = synved_plugout_module_path_list_get($module_id, 'addon-file');
+	
+	if ($path_list != null)
+	{
+		foreach ($path_list as $path_item)
+		{
+			$path = $path_item['path'];
+			$extra_list = null;
+			
+			if (file_exists($path) && strtolower(substr($path, -4)) == '.php')
+			{
+				$addon_name = isset($path_item['path']['meta']['addon-name']) ? $path_item['path']['meta']['addon-name'] : basename($path, '.php');
+				$extra_list = array($addon_name => $path);
+			}
+			
+			if ($extra_list != null)
+			{
+				$addon_list = array_merge($addon_list, $extra_list);
+			}
+		}
 	}
 	
-	return null;
+	return $addon_list;
 }
 
 ?>
