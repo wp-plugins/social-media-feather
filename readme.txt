@@ -45,6 +45,7 @@ The plugin also offers widgets for sharing and following buttons that you can pl
 * Comes with a default modern icon set
 * For further customization more [social icons skins](http://synved.com/product/feather-extra-social-icons/ "Add 8 extra social icon skins to the Social Media Feather plugin!") are available
 * Available skins can be customized with cool effects like [fading and greying out](http://synved.com/product/feather-grey-fade/ "Customize any of the available social icon skins with 2 cool effects!") social icons
+* If you like them you can get [social sharing counters](http://synved.com/product/feather-light-prompt/ "Nice lightweight social sharing counters using the Light Prompt addon") that load dynamically, only when necessary, thus not weighing in on visitors who don't use them
 
 = Example Shortcodes =
 
