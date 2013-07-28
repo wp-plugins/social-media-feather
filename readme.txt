@@ -112,6 +112,11 @@ Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio them
 
 == Changelog ==
 
+= 1.3.2 =
+* Added ability to specify position for both share and follow buttons
+* Added options for prefix and postfix markup for individual buttons sets
+* Fixed warning when in debug mode
+
 = 1.3.1 =
 * Tweak the new Retina display code to work more accurately
 * Fix for share URL being incorrect in certain cases

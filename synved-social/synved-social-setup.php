@@ -147,6 +147,12 @@ $synved_social_options = array(
 					'default' => false, 'label' => __('Display Sharing Buttons', 'synved-social'), 
 					'tip' => __('Tries to automatically append sharing buttons to your posts (disable for specific posts by setting custom field synved_social_exclude or synved_social_exclude_share to yes)', 'synved-social')
 				),
+				'automatic_share_position' => array(
+					'default' => 'after_post',
+					'set' => 'after_post=After Post,before_post=Before Post',
+					'label' => __('Share Buttons Position', 'synved-social'), 
+					'tip' => __('Select where the sharing buttons should be placed. Note: placing buttons Before Post might not work in all themes.', 'synved-social')
+				),
 				'automatic_share_single' => array(
 					'default' => false, 'label' => __('Sharing Single Posts', 'synved-social'), 
 					'tip' => __('Sharing buttons are only displayed on single posts/pages and not on archive pages like blog/category/tag/author pages', 'synved-social')
@@ -159,9 +165,23 @@ $synved_social_options = array(
 					'tip' => __('Post types for which automatic appending for share buttons should be attempted (CTRL + click to select multiple ones)', 'synved-social'),
 					'render' => 'synved_social_automatic_append_post_types_render'
 				),
+				'automatic_share_prefix' => array(
+					'default' => '', 'label' => __('Share Prefix Markup', 'synved-social'), 
+					'tip' => __('When automatically appending, place this markup before the share buttons markup', 'synved-social')
+				),
+				'automatic_share_postfix' => array(
+					'default' => '', 'label' => __('Share Postfix Markup', 'synved-social'), 
+					'tip' => __('When automatically appending, place this markup after all of the share buttons markup', 'synved-social')
+				),
 				'automatic_follow' => array(
 					'default' => false, 'label' => __('Display Follow Buttons', 'synved-social'), 
 					'tip' => __('Tries to automatically append follow buttons to your posts (disable for specific posts by setting custom field synved_social_exclude or synved_social_exclude_follow to yes)', 'synved-social')
+				),
+				'automatic_follow_position' => array(
+					'default' => 'after_post',
+					'set' => 'after_post=After Post,before_post=Before Post',
+					'label' => __('Follow Buttons Position', 'synved-social'), 
+					'tip' => __('Select where the follow buttons should be placed. Note: placing buttons Before Post might not work in all themes.', 'synved-social')
 				),
 				'automatic_follow_single' => array(
 					'default' => false, 'label' => __('Follow Single Posts', 'synved-social'), 
@@ -177,7 +197,15 @@ $synved_social_options = array(
 				),
 				'automatic_follow_before_share' => array(
 					'default' => false, 'label' => __('Follow Before Share', 'synved-social'), 
-					'tip' => __('When automatically appending, place follow buttons before share buttons', 'synved-social')
+					'tip' => __('When automatically appending, place follow buttons before share buttons. Only valid when share and follow buttons positions are the same.', 'synved-social')
+				),
+				'automatic_follow_prefix' => array(
+					'default' => '', 'label' => __('Follow Prefix Markup', 'synved-social'), 
+					'tip' => __('When automatically appending, place this markup before the follow buttons markup', 'synved-social')
+				),
+				'automatic_follow_postfix' => array(
+					'default' => '', 'label' => __('Follow Postfix Markup', 'synved-social'), 
+					'tip' => __('When automatically appending, place this markup after all of the follow buttons markup', 'synved-social')
 				),
 				'automatic_append_prefix' => array(
 					'default' => '', 'label' => __('Prefix Markup', 'synved-social'), 
@@ -185,7 +213,7 @@ $synved_social_options = array(
 				),
 				'automatic_append_separator' => array(
 					'default' => '<br/>', 'label' => __('Separator Markup', 'synved-social'), 
-					'tip' => __('When automatically appending both, use this markup as separator between the set of share buttons and the set of follow buttons', 'synved-social')
+					'tip' => __('When automatically appending both, use this markup as separator between the set of share buttons and the set of follow buttons. Only valid when share and follow buttons positions are the same.', 'synved-social')
 				),
 				'automatic_append_postfix' => array(
 					'default' => '', 'label' => __('Postfix Markup', 'synved-social'), 
@@ -672,8 +700,10 @@ function synved_social_wp_the_content($content, $id = null)
 	$exclude_share = false;
 	$exclude_follow = false;
 	
-	$extra = null;
-	$separator = null;
+	$extra_after = null;
+	$extra_before = null;
+	$separator_after = null;
+	$separator_before = null;
 	
 	if ($id == null)
 	{
@@ -713,13 +743,40 @@ function synved_social_wp_the_content($content, $id = null)
 		
 			if (in_array($post_type, $type_list))
 			{
-				$extra .= synved_social_share_markup();
+				$position = synved_option_get('synved_social', 'automatic_share_position');
+				$markup = synved_social_share_markup();
+				$prefix = synved_option_get('synved_social', 'automatic_share_prefix');
+				$postfix = synved_option_get('synved_social', 'automatic_share_postfix');
+				$markup = $prefix . $markup . $postfix;
+				
+				switch ($position)
+				{
+					case 'after_post':
+					{
+						$extra_after .= $markup;
+						
+						break;
+					}
+					case 'before_post':
+					{
+						$extra_before .= $markup;
+						
+						break;
+					}
+				}
 			}
 		}
+		
+		$separator = synved_option_get('synved_social', 'automatic_append_separator');
 	
-		if ($extra != null)
+		if ($extra_after != null)
 		{
-			$separator = synved_option_get('synved_social', 'automatic_append_separator');
+			$separator_after = $separator;
+		}
+	
+		if ($extra_before != null)
+		{
+			$separator_before = $separator;
 		}
 	
 		if ($exclude_follow == false && synved_option_get('synved_social', 'automatic_follow'))
@@ -729,23 +786,55 @@ function synved_social_wp_the_content($content, $id = null)
 		
 			if (in_array($post_type, $type_list))
 			{
-				if (synved_option_get('synved_social', 'automatic_follow_before_share'))
+				$position = synved_option_get('synved_social', 'automatic_follow_position');
+				$markup = synved_social_follow_markup();
+				$prefix = synved_option_get('synved_social', 'automatic_follow_prefix');
+				$postfix = synved_option_get('synved_social', 'automatic_follow_postfix');
+				$markup = $prefix . $markup . $postfix;
+				
+				switch ($position)
 				{
-					$extra = synved_social_follow_markup() . $separator . $extra;
-				}
-				else
-				{
-					$extra .= $separator . synved_social_follow_markup();
+					case 'after_post':
+					{
+						if (synved_option_get('synved_social', 'automatic_follow_before_share'))
+						{
+							$extra_after = $markup . $separator_after . $extra_after;
+						}
+						else
+						{
+							$extra_after .= $separator_after . $markup;
+						}
+						
+						break;
+					}
+					case 'before_post':
+					{
+						if (synved_option_get('synved_social', 'automatic_follow_before_share'))
+						{
+							$extra_before = $markup . $separator_before . $extra_before;
+						}
+						else
+						{
+							$extra_before .= $separator_before . $markup;
+						}
+						
+						break;
+					}
 				}
 			}
 		}
 	
-		if ($extra != null)
-		{
-			$prefix = synved_option_get('synved_social', 'automatic_append_prefix');
-			$postfix = synved_option_get('synved_social', 'automatic_append_postfix');
+		$prefix = synved_option_get('synved_social', 'automatic_append_prefix');
+		$postfix = synved_option_get('synved_social', 'automatic_append_postfix');
 			
-			$content .= $prefix . $extra . $postfix;
+		if ($extra_after != null)
+		{
+			$content .= $prefix . $extra_after . $postfix;
+		}
+	
+		if ($extra_before != null)
+		{
+			$content = $prefix . $extra_before . $postfix . $content;
 		}
 	}
 	
