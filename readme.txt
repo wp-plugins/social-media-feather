@@ -112,6 +112,10 @@ Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio them
 
 == Changelog ==
 
+= 1.3.3 =
+* Fixed validation error for e-mail link
+* Fixed invalid index notices
+
 = 1.3.2 =
 * Added ability to specify position for both share and follow buttons
 * Added options for prefix and postfix markup for individual buttons sets

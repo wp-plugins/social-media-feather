@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.3.2
+Version: 1.3.3
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100030002);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.3.2');
+define('SYNVED_SOCIAL_VERSION', 100030003);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.3.3');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -546,16 +546,19 @@ function synved_social_button_list_markup_item_out($out_item)
 		
 		foreach ($out_item as $attr_name => $attr_value)
 		{
-			if (in_array($attr_name, array('href', 'src')))
+			if ($attr_name != null && $attr_value !== null)
 			{
-				$attr_value = esc_url($attr_value);
-			}
-			else
-			{
-				$attr_value = esc_attr($attr_value);
-			}
+				if (in_array($attr_name, array('href', 'src')))
+				{
+					$attr_value = esc_url($attr_value);
+				}
+				else
+				{
+					$attr_value = esc_attr($attr_value);
+				}
 			
-			$out .= ' ' . $attr_name . '="' . $attr_value . '"';
+				$out .= ' ' . $attr_name . '="' . $attr_value . '"';
+			}
 		}
 		
 		if ($list != null || $content != null)
@@ -887,7 +890,7 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 				'tag' => 'a',
 				'class' => 'synved-social-button synved-social-button-' . $context .  ' synved-social-size-' . $size .  ' synved-social-resolution-' . $icon_def . ' synved-social-provider-' . $button_key . $class_extra,
 				'data-provider' => $button_key,
-				'target' => $button_key != 'mail' ? '_blank' : '',
+				'target' => $button_key != 'mail' ? '_blank' : null,
 				'rel' => 'nofollow',
 				'title' => $title,
 				'href' => $href,

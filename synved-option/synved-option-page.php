@@ -26,7 +26,7 @@ function synved_option_page_slug($id, $name, $item = null)
 	{
 		global $synved_option_list;
 		
-		if (isset($synved_option_list[$id]['pages'][$name]))
+		if (isset($synved_option_list[$id]['pages'][$name]['wp-page-slug']))
 		{
 			return $synved_option_list[$id]['pages'][$name]['wp-page-slug'];
 		}
