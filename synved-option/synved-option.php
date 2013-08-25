@@ -3,7 +3,7 @@
 Module Name: Synved Option
 Description: Easily add options to your themes or plugins with as little or as much coding as you want. Just create an array of your options, the rest is automated. If you need extra flexibility you can then use the powerful API provided to achieve any level of customization.
 Author: Synved
-Version: 1.4.4
+Version: 1.4.5
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -25,8 +25,8 @@ include_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'synved-option-setting.ph
 
 
 define('SYNVED_OPTION_LOADED', true);
-define('SYNVED_OPTION_VERSION', 100040004);
-define('SYNVED_OPTION_VERSION_STRING', '1.4.4');
+define('SYNVED_OPTION_VERSION', 100040005);
+define('SYNVED_OPTION_VERSION_STRING', '1.4.5');
 
 
 $synved_option = array();
@@ -1006,23 +1006,52 @@ function synved_option_admin_enqueue_scripts()
 	$uri = synved_option_path_uri();
 	
 	wp_register_style('synved-option-jquery-ui', $uri . '/jqueryUI/css/snvdopt/jquery-ui-1.9.2.custom.min.css', false, '1.9.2');
-	wp_register_style('synved-option-admin', $uri . '/style/admin.css', array('wp-jquery-ui-dialog'), '1.0');
+	wp_register_style('synved-option-admin', $uri . '/style/admin.css', array('wp-jquery-ui-dialog', 'synved-option-jquery-ui'), '1.0');
 	
 	wp_register_script('synved-option-script-custom', $uri . '/script/custom.js', array('jquery', 'suggest', 'media-upload', 'thickbox', 'jquery-ui-core', 'jquery-ui-progressbar', 'jquery-ui-dialog'), '1.0.0');
 	wp_localize_script('synved-option-script-custom', 'SynvedOptionVars', array('flash_swf_url' => includes_url('js/plupload/plupload.flash.swf'), 'silverlight_xap_url' => includes_url('js/plupload/plupload.silverlight.xap'), 'ajaxurl' => admin_url('admin-ajax.php'), 'synvedSecurity' => wp_create_nonce('synved-option-submit-nonce')));
 	
-	wp_enqueue_style('thickbox');
-	wp_enqueue_style('farbtastic');
-	wp_enqueue_style('wp-pointer');
-	wp_enqueue_style('synved-option-jquery-ui');
-	wp_enqueue_style('synved-option-admin');
+	$page = isset($_GET['page']) ? $_GET['page'] : null;
+	$enqueue = false;
 	
-	wp_enqueue_script('plupload-all');
-	wp_enqueue_script('media-upload');
-	wp_enqueue_script('suggest');
-	wp_enqueue_script('thickbox');
-	wp_enqueue_script('farbtastic');
-	wp_enqueue_script('synved-option-script-custom');
+	global $synved_option_list;
+	
+	if ($synved_option_list != null)
+	{
+		foreach ($synved_option_list as $id => $list)
+		{
+			if (isset($list['pages']) && $list['pages'] != null)
+			{
+				$page_list = $list['pages'];
+				
+				foreach ($page_list as $name => $page_object)
+				{
+					if ($page == synved_option_page_slug($id, $name))
+					{
+						$enqueue = true;
+				
+						break;
+					}
+				}
+			}
+		}
+	}
+	
+	if ($enqueue)
+	{
+		wp_enqueue_style('thickbox');
+		wp_enqueue_style('farbtastic');
+		wp_enqueue_style('wp-pointer');
+		wp_enqueue_style('synved-option-jquery-ui');
+		wp_enqueue_style('synved-option-admin');
+	
+		wp_enqueue_script('plupload-all');
+		wp_enqueue_script('media-upload');
+		wp_enqueue_script('suggest');
+		wp_enqueue_script('thickbox');
+		wp_enqueue_script('farbtastic');
+		wp_enqueue_script('synved-option-script-custom');
+	}
 }
 
 function synved_option_ajax()
