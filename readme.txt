@@ -113,7 +113,7 @@ Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio them
 == Changelog ==
 
 = 1.3.4 =
-* Fix for potential conflicts with some other plugins
+* Fix for potential conflicts with some other plugins 
 
 = 1.3.3 =
 * Fixed validation error for e-mail link
