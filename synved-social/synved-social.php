@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.3.4
+Version: 1.4.0
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100030004);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.3.4');
+define('SYNVED_SOCIAL_VERSION', 100040000);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.4.0');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -234,6 +234,11 @@ function synved_social_service_provider_list($context, $raw = false)
 				'link' => 'http://www.linkedin.com/shareArticle?mini=true&url=%%url%%&title=%%title%%',
 				'title' => __('Share on Linkedin'),
 			),
+			'tumblr' => array(
+				'link' => 'http://tumblr.com/share?s=&v=3&t=%%title%%&u=%%url%%',
+				'title' => __('Share on tumblr'),
+				'default-display' => false,
+			),
 			'mail' => array(
 				'link' => 'mailto:?subject=%%title%%&body=%%message%%:%20%%url%%',
 				'title' => __('Share by email'),
@@ -258,7 +263,7 @@ function synved_social_service_provider_list($context, $raw = false)
 			'pinterest' => array(
 				'link' => 'http://pinterest.com/MyUserName/',
 				'title' => __('Our board on Pinterest'),
-				'default-display' => false
+				'default-display' => false,
 			),
 			'linkedin' => array(
 				'link' => 'http://www.linkedin.com/in/yourid',
@@ -272,6 +277,16 @@ function synved_social_service_provider_list($context, $raw = false)
 			'youtube' => array(
 				'link' => 'http://www.youtube.com/MyYouTubeName',
 				'title' => __('Find us on YouTube'),
+			),
+			'vimeo' => array(
+				'link' => 'http://vimeo.com/MyVimeoName',
+				'title' => __('Find us on vimeo'),
+				'default-display' => false,
+			),
+			'tumblr' => array(
+				'link' => 'http://myname.tumblr.com',
+				'title' => __('Find us on tumblr'),
+				'default-display' => false,
 			),
 		);
 	}
@@ -653,7 +668,7 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		
 				if ($use_shortlinks && function_exists('wp_get_shortlink')) 
 				{
-					$short = wp_get_shortlink(null, null, 'query');
+					$short = wp_get_shortlink($id);
 			
 					if ($short != null)
 					{

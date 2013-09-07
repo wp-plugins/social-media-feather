@@ -15,7 +15,7 @@ function synved_connect_support_social_follow_render()
 	$out .= '</div>';
 
 	$out .= '<div class="notice-extra" style="margin:8px 0 0 0; padding:8px 10px; border:dotted 1px #bbb;">';
-	$out .= '<a style="display:block; line-height:32px; height:32px;" target="_blank" href="http://synved.com/about/contact/?subject=Quote%20Request" title="' . __('Hire Us!', 'synved-connect') . '"><img style="vertical-align:middle;" alt="hire_us" src="' . esc_url($uri . '/image/hire.png') . '" /><span style="line-height:normal; vertical-align:middle; margin-left:8px;">' . __('Request a FREE quote!', 'synved-connect') . '</span></a><div style="font-size:75%; color:#888; line-height:normal; text-align:center; margin-top:5px;">' . __('For any WordPress development', 'synved-connect') . '</div>';
+	$out .= '<a style="display:block; line-height:32px; height:32px;" target="_blank" href="http://synved.com/about/contact/?subject=Quote%20Request" title="' . __('Hire Us!', 'synved-connect') . '"><img style="vertical-align:middle;" alt="hire_us" src="' . esc_url($uri . '/image/hire.png') . '" /><span style="line-height:normal; vertical-align:middle; margin-left:8px;">' . __('Hire Us!', 'synved-connect') . '</span></a><div style="font-size:75%; color:#888; line-height:normal; text-align:center; margin-top:5px;">' . __('For any WordPress development', 'synved-connect') . '</div>';
 	$out .= '</div>';
 
 	$out .= '<div class="notice-extra notice-secondary">';

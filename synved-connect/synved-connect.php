@@ -3,7 +3,7 @@
 Module Name: Synved Connect
 Description: Connect and sync components in a WordPress installation with a remote server
 Author: Synved
-Version: 1.0
+Version: 1.0.1
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -24,8 +24,8 @@ include_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'synved-connect-sponsor.p
 
 
 define('SYNVED_CONNECT_LOADED', true);
-define('SYNVED_CONNECT_VERSION', 100000000);
-define('SYNVED_CONNECT_VERSION_STRING', '1.0');
+define('SYNVED_CONNECT_VERSION', 100000001);
+define('SYNVED_CONNECT_VERSION_STRING', '1.0.1');
 
 
 $synved_connect = array();
