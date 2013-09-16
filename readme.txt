@@ -3,7 +3,7 @@ Contributors: Synved
 Donate link: http://synved.com/wordpress-social-media-feather/
 Tags: shortcode, shortcodes, link, links, url, permalink, permalinks, time, icons, button, buttons, free, content, plugin, Share, sharing, page, pages, widget, CSS, list, media, profile, shortlinks, social, social media, Like, twitter, google, Facebook, Reddit, youtube, vimeo, tumblr, bookmark, bookmarks, bookmarking, pinterest, linkedin, image, edit, manage, mail, Post, posts, Style, seo, title, filter, follow, following, high resolution, retina, ipad
 Requires at least: 3.1
-Tested up to: 3.6
+Tested up to: 3.6.1
 Stable tag: trunk
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
