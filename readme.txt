@@ -114,6 +114,9 @@ Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio them
 
 == Changelog ==
 
+= 1.4.1 =
+* Minor fixes and adjustments
+
 = 1.4.0 =
 * Added social providers tumblr and vimeo
 * Assorted minor fixes and tweaks
