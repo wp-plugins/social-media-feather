@@ -116,7 +116,8 @@ Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio them
 
 = 1.4.2 =
 * Fixed some issues on certain windows hosting
-* Fixed installation of addons in certain peculiar environments 
+* Fixed installation of addons in certain peculiar environments
+* Added option for RTL layouts sites
 
 = 1.4.1 =
 * Minor fixes and adjustments
