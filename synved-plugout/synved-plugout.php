@@ -3,7 +3,7 @@
 Module Name: Synved PlugOut
 Description: Allows to embed modules/plugins transparently into themes or other plugins without creating conflicts with externally installed plugins
 Author: Synved Ltd.
-Version: 1.0
+Version: 1.0.2
 Author URI: http://www.synved.com/
 
 LEGAL STATEMENTS

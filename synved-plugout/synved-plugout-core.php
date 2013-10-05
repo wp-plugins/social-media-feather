@@ -1,8 +1,8 @@
 <?php
 
 define('SYNVED_PLUGOUT_LOADED', true);
-define('SYNVED_PLUGOUT_VERSION', 100000001);
-define('SYNVED_PLUGOUT_VERSION_STRING', '1.0.1');
+define('SYNVED_PLUGOUT_VERSION', 100000002);
+define('SYNVED_PLUGOUT_VERSION_STRING', '1.0.2');
 
 
 $synved_plugout = array();
@@ -224,8 +224,8 @@ function synved_plugout_module_uri_get($module_id)
 
 	if ($directory != null)
 	{
-		$directory = strtolower($directory);
-		$content_dir = strtolower(WP_CONTENT_DIR);
+		$directory = strtolower(str_replace(array('\\', '/'), '/', $directory));
+		$content_dir = strtolower(str_replace(array('\\', '/'), '/', WP_CONTENT_DIR));
 		$base_len = strlen($content_dir);
 		
 		if (substr($directory, 0, $base_len) == $content_dir)

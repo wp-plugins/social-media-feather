@@ -2,7 +2,11 @@
 
 if (!function_exists('synved_option_render_type_addon'))
 {
-	
+function synved_option_addon_type_addon_version()
+{
+	return 100000002;
+}
+
 function synved_option_render_type_addon($id, $name, $item, $out_name, $extra = null)
 {
 	$type = synved_option_item_type($item);
@@ -62,7 +66,8 @@ function synved_option_item_addon_install($id, $name, $item)
   			
 					$dirs = glob($path . '*', GLOB_ONLYDIR);
 					
-					$return = unzip_file($tmpfname, $path);
+					wp_mkdir_p(realpath($path));
+					$return = unzip_file($tmpfname, realpath($path));
 					
 					if ($wp_filesystem != null)
 					{

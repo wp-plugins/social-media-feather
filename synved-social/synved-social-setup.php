@@ -125,6 +125,10 @@ $synved_social_options = array(
 					'default' => false, 'label' => __('Share Full URL', 'synved-social'), 
 					'tip' => __('Determines whether to always share the full URL or just the post permalink. You can override this for individual posts by setting the "synved_social_share_full_url" custom field to either "yes" or "no"', 'synved-social')
 				),
+				'layout_rtl' => array(
+					'default' => false, 'label' => __('Right To Left Layout', 'synved-social'), 
+					'tip' => __('Check this option if you have a right-to-left site layout and icons show spacing issues', 'synved-social')
+				),
 				'shortcode_widgets' => array(
 					'default' => true, 'label' => __('Shortcodes In Widgets', 'synved-social'), 
 					'tip' => __('Allow shortcodes in Text widgets', 'synved-social')

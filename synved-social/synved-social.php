@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.4.0
+Version: 1.4.2
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100040000);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.4.0');
+define('SYNVED_SOCIAL_VERSION', 100040002);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.4.2');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -774,6 +774,7 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 	}
 	
 	$icon_spacing = synved_option_get('synved_social', 'icon_spacing');
+	$layout_rtl = synved_option_get('synved_social', 'layout_rtl');
 	$spacing = 5;
 	
 	if ($icon_spacing != null)
@@ -889,7 +890,7 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 				$style .= 'margin-bottom:' . $spacing . 'px;';
 			}
 		
-			if ($index < $count - 1)
+			if ($index < $count - 1 || $layout_rtl)
 			{
 				$style .= 'margin-right:' . $spacing . 'px;';
 			}
