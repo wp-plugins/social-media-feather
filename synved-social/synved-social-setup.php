@@ -112,6 +112,7 @@ $synved_social_options = array(
 	'title' => 'Social Media Feather',
 	'tip' => synved_option_callback('synved_social_page_settings_tip'),
 	'link-target' => plugin_basename(synved_plugout_module_path_get('synved-social', 'provider')),
+	'render-fragment' => 'synved_social_page_render_fragment',
 	'sections' => array(
 		'section_general' => array(
 			'label' => __('General Settings', 'synved-social'), 
@@ -325,6 +326,16 @@ function synved_social_page_settings_tip($tip, $item)
 	}
 	
 	return $tip;
+}
+
+function synved_social_page_render_fragment($fragment, $out, $params)
+{
+	if ($fragment == 'page-submit-tail')
+	{
+		$out .= '<div style="clear:both; margin-top: -12px;"><a target="_blank" href="http://wordpress.org/support/view/plugin-reviews/social-media-feather?rate=5#postform">If you like the plugin, you can help us by leaving a 5 stars review!</a></div>';
+	}
+	
+	return $out;
 }
 
 function synved_social_section_customize_look_tip($tip, $item)

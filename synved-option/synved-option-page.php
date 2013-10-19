@@ -73,8 +73,7 @@ function synved_option_page_cb($id, $name, $item)
 	if ($title === null)
 	{
 		$title = $label;
-	}
-	
+	}	
 ?>
 	<div class="wrap">
 		<div class="icon32" id="icon-options-general"><br/></div>
@@ -84,10 +83,39 @@ function synved_option_page_cb($id, $name, $item)
 		<?php settings_fields($group); ?>
 		<?php 
 			$page_slug = synved_option_page_slug($id, $name, $item);
-			synved_option_render_page($page_slug); 
+			synved_option_render_page($page_slug);
 		?>
 		<p class="submit">
 			<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
+		<?php
+			$render_fragment = synved_option_item_render_fragment($item);
+			$out = null;
+	
+			if ($render_fragment != null)
+			{
+				$error = null;
+				$new_out = null;
+		
+				try
+				{
+					$params = array();
+					$new_out = $render_fragment->Invoke(array('page-submit-tail', '', $params, $name, $id, $item));
+				}
+				catch (Exception $ex)
+				{
+					$new_out = null;
+			
+					$error = $ex->getMessage();
+				}
+		
+				if ($new_out !== null)
+				{
+					$out = $new_out;
+				}
+			}
+			
+			echo $out;
+		?>
 		</p>
 		</form>
 	</div>

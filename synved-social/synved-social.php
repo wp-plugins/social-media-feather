@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.4.2
+Version: 1.4.3
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100040002);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.4.2');
+define('SYNVED_SOCIAL_VERSION', 100040003);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.4.3');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -640,7 +640,18 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 	if (!isset($vars['url']))
 	{
 		$full_url = synved_option_get('synved_social', 'share_full_url');
-		$url = home_url($_SERVER['REQUEST_URI']);
+		$home_url = home_url();
+		$req_uri = $_SERVER['REQUEST_URI'];
+		
+		$path = parse_url($home_url, PHP_URL_PATH);
+		$path_len = strlen($path);
+		
+		if (strtolower(substr($req_uri, 0, $path_len)) == strtolower($path))
+		{
+			$req_uri = substr($req_uri, $path_len);
+		}
+		
+		$url = home_url($req_uri);
 		
 		if ($id != null && in_the_loop())
 		{
@@ -659,12 +670,12 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 			}
 		}
 		
-		if (!$full_url)
+		//if (!$full_url)
 		{
 			if ($id != null && in_the_loop())
 			{
 				$use_shortlinks = synved_option_get('synved_social', 'use_shortlinks');
-				$url = get_permalink();
+				$url = get_permalink($id);
 		
 				if ($use_shortlinks && function_exists('wp_get_shortlink')) 
 				{
@@ -675,6 +686,10 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 						$url = $short;
 					}
 				}
+			}
+			else if (is_home())
+			{
+				$url = $home_url;
 			}
 		}
 		

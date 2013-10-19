@@ -551,6 +551,11 @@ function synved_option_item_render(array $item)
 	return synved_option_item_callback($item, 'render', '$value, $params, $name, $id, $item');
 }
 
+function synved_option_item_render_fragment(array $item)
+{
+	return synved_option_item_callback($item, 'render-fragment', '$fragment, $output, $params, $name, $id, $item');
+}
+
 function synved_option_item_sanitize(array $item)
 {
 	return synved_option_item_callback($item, 'sanitize', '$value, $name, $id, $item');
