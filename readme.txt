@@ -114,6 +114,10 @@ Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio them
 
 == Changelog ==
 
+= 1.4.4 =
+* Fixed titles not displaying certain special characters properly
+* Misc adjustments
+
 = 1.4.3 =
 * Fixed share URL being incorrect in some instances like subdir installs
 * Misc adjustments
