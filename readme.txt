@@ -3,7 +3,7 @@ Contributors: Synved
 Donate link: http://synved.com/wordpress-social-media-feather/
 Tags: shortcode, shortcodes, link, links, url, permalink, permalinks, time, icons, button, buttons, free, content, plugin, Share, sharing, page, pages, widget, CSS, list, media, profile, shortlinks, social, social media, Like, twitter, google, Facebook, Reddit, youtube, vimeo, tumblr, bookmark, bookmarks, bookmarking, pinterest, linkedin, image, edit, manage, mail, Post, posts, Style, seo, title, filter, follow, following, high resolution, retina, ipad
 Requires at least: 3.1
-Tested up to: 3.6.1
+Tested up to: 3.7.1
 Stable tag: trunk
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -26,9 +26,9 @@ By keeping load times at a minimum, you ensure that all the social sharing aspec
 
 On the other hand, given the widespread focus on WordPress social media integration, your site will still provide social bookmarks to improve visibility of your posts and content and improve your overall global reach.
 
-The **WordPress social media sharing** offered by the plugin includes all major social sharing providers like Facebook, Twitter, Google+, reddit, Pinterest, tumblr, Linkedin and even e-mail.
+The **WordPress social media sharing** offered by the plugin includes all major social sharing providers like Facebook, Twitter, Google+, reddit, Pinterest, tumblr Linkedin and even e-mail.
 
-The **WordPress social media following** offered by the plugin includes all major social network providers and tools like Facebook, Twitter, Google+, Pinterest, Linkedin, YouTube, tumblr, vimeo or RSS.
+The **WordPress social media following** offered by the plugin includes all major social network providers and tools like Facebook, Twitter, Google+, Pinterest, Linkedin, YouTube, tumblr, instagram, flickr, foursquare, vimeo or RSS.
 
 The plugin also offers widgets for sharing and following buttons that you can place in any widgetized area in your site. Widgets also expose some settings to tweak appearance.
 
@@ -38,7 +38,7 @@ The plugin also offers widgets for sharing and following buttons that you can pl
 * WordPress social sharing and following widgets
 * Supports all major providers of social features
 * Sharing with Facebook, Twitter, Google+, reddit, Pinterest, tumblr, Linkedin and e-mail
-* Following on Facebook, Twitter, Google+, Pinterest, Linkedin, YouTube, tumblr, vimeo or RSS Feed
+* Following on Facebook, Twitter, Google+, Pinterest, Linkedin, YouTube, tumblr, instagram, flickr, foursquare, vimeo or RSS Feed
 * Each social provider can be enabled or disabled
 * Ability to select what services each provider will be exposed for
 * Full customization for titles and URLs for each provider
@@ -113,6 +113,9 @@ Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio them
 7. This shows the available social sharing and following widgets and their settings 
 
 == Changelog ==
+
+= 1.5 =
+* Added social providers instagram, flickr and foursquare
 
 = 1.4.4 =
 * Fixed titles not displaying certain special characters properly

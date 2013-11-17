@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.4.4
+Version: 1.5
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100040004);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.4.4');
+define('SYNVED_SOCIAL_VERSION', 100050000);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.5');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -286,6 +286,21 @@ function synved_social_service_provider_list($context, $raw = false)
 			'tumblr' => array(
 				'link' => 'http://myname.tumblr.com',
 				'title' => __('Find us on tumblr'),
+				'default-display' => false,
+			),
+			'instagram' => array(
+				'link' => 'http://instagram.com/myusername',
+				'title' => __('Check out our instagram feed'),
+				'default-display' => false,
+			),
+			'flickr' => array(
+				'link' => 'http://www.flickr.com/photos/myusername/',
+				'title' => __('Check out our flickr feed'),
+				'default-display' => false,
+			),
+			'foursquare' => array(
+				'link' => 'https://foursquare.com/moeman96',
+				'title' => __('Check out our foursquare feed'),
 				'default-display' => false,
 			),
 		);
