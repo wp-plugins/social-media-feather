@@ -1,7 +1,7 @@
 === Social Media Feather ===
 Contributors: Synved
 Donate link: http://synved.com/wordpress-social-media-feather/
-Tags: shortcode, shortcodes, link, links, url, permalink, permalinks, time, icons, button, buttons, free, content, plugin, Share, sharing, page, pages, widget, CSS, list, media, profile, shortlinks, social, social media, Like, twitter, google, Facebook, Reddit, youtube, vimeo, tumblr, bookmark, bookmarks, bookmarking, pinterest, linkedin, image, edit, manage, mail, Post, posts, Style, seo, title, filter, follow, following, high resolution, retina, ipad
+Tags: shortcode, shortcodes, link, links, url, permalink, permalinks, time, icons, button, buttons, free, content, plugin, Share, sharing, page, pages, widget, CSS, list, media, profile, shortlinks, social, social media, Like, twitter, google, Facebook, Reddit, youtube, vimeo, tumblr, instagram, flickr, foursquare, bookmark, bookmarks, bookmarking, pinterest, linkedin, image, edit, manage, mail, Post, posts, Style, seo, title, filter, follow, following, high resolution, retina, ipad
 Requires at least: 3.1
 Tested up to: 3.7.1
 Stable tag: trunk
@@ -26,7 +26,9 @@ By keeping load times at a minimum, you ensure that all the social sharing aspec
 
 On the other hand, given the widespread focus on WordPress social media integration, your site will still provide social bookmarks to improve visibility of your posts and content and improve your overall global reach.
 
-The **WordPress social media sharing** offered by the plugin includes all major social sharing providers like Facebook, Twitter, Google+, reddit, Pinterest, tumblr Linkedin and even e-mail.
+The **WordPress social media sharing** offered by the plugin includes all major social sharing providers like Facebook, Twitter, Google+, reddit, Pinterest, tumblr, Linkedin and even e-mail.
+
+It will show social buttons that your users can click to share to facebook or tweet your posts and pages on your site or submit it to reddit and google plus and all other social sharing networks.
 
 The **WordPress social media following** offered by the plugin includes all major social network providers and tools like Facebook, Twitter, Google+, Pinterest, Linkedin, YouTube, tumblr, instagram, flickr, foursquare, vimeo or RSS.
 
