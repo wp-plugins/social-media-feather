@@ -116,6 +116,9 @@ Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio them
 
 == Changelog ==
 
+= 1.5.1 =
+* Updated Facebook icons according to newest branding changes
+
 = 1.5 =
 * Added social providers instagram, flickr and foursquare
 
