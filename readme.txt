@@ -1,7 +1,7 @@
 === Social Media Feather ===
 Contributors: Synved
 Donate link: http://synved.com/wordpress-social-media-feather/
-Tags: shortcode, shortcodes, link, links, url, permalink, permalinks, time, icons, button, buttons, free, content, plugin, Share, sharing, page, pages, widget, CSS, list, media, profile, shortlinks, social, social media, Like, twitter, google, Facebook, Reddit, youtube, vimeo, tumblr, instagram, flickr, foursquare, bookmark, bookmarks, bookmarking, pinterest, linkedin, image, edit, manage, mail, Post, posts, Style, seo, title, filter, follow, following, high resolution, retina, ipad
+Tags: shortcode, shortcodes, link, links, url, permalink, permalinks, time, icons, button, buttons, free, content, plugin, Share, sharing, social share, social sharing, page, pages, widget, CSS, list, media, profile, shortlinks, social, social media, Like, twitter, google, Facebook, Reddit, youtube, vimeo, tumblr, instagram, flickr, foursquare, bookmark, bookmarks, bookmarking, pinterest, linkedin, image, edit, manage, mail, Post, posts, Style, seo, title, filter, follow, following, social follow, social following, high resolution, retina, ipad
 Requires at least: 3.1
 Tested up to: 3.8.1
 Stable tag: trunk
@@ -115,6 +115,11 @@ Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio them
 7. This shows the available social sharing and following widgets and their settings 
 
 == Changelog ==
+
+= 1.5.2 =
+* Small fix to default URL
+* Appearance fix in admin settings page
+* Fixed typo
 
 = 1.5.1 =
 * Updated Facebook icons according to newest branding changes

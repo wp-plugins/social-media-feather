@@ -3,7 +3,7 @@
 Module Name: Synved Option
 Description: Easily add options to your themes or plugins with as little or as much coding as you want. Just create an array of your options, the rest is automated. If you need extra flexibility you can then use the powerful API provided to achieve any level of customization.
 Author: Synved
-Version: 1.4.6
+Version: 1.4.7
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -25,8 +25,8 @@ include_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'synved-option-setting.ph
 
 
 define('SYNVED_OPTION_LOADED', true);
-define('SYNVED_OPTION_VERSION', 100040006);
-define('SYNVED_OPTION_VERSION_STRING', '1.4.6');
+define('SYNVED_OPTION_VERSION', 100040007);
+define('SYNVED_OPTION_VERSION_STRING', '1.4.7');
 
 
 $synved_option = array();
@@ -894,7 +894,7 @@ function synved_option_wp_upgrader_pre_install($perform, $extra)
 	
 	$dir = get_temp_dir();
 	$name = time();
-	$dir = $dir . wp_unique_filename($dir, $name) . DIRECTORY_SEPARATOR;
+	$dir = rtrim($dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . wp_unique_filename($dir, $name) . DIRECTORY_SEPARATOR;
 	$list = array();
 	
 	foreach ($module_list as $module_id)

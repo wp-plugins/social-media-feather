@@ -395,7 +395,7 @@ function synved_social_icon_skin_render($value, $params, $id, $name, $item)
 			$img_src = $icons[$set_it_keys[0]]['image'];
 		}
 		
-		$out .= '<div style="text-align:center; width:260px; float:left; margin-right:20px;"><label title="Use skin=&quot;' . esc_attr($set_it_keys[0]) . '&quot; in shortcodes"><img src="' . esc_url($img_src) . '" style="border:solid 1px #bbb" /><p><input type="radio" name="' . esc_attr($out_name) . '" value="' . esc_attr($set_it_keys[0]) . '"' . $selected . '/> ' . $set_it[$set_it_keys[0]] . '</p></label></div>';
+		$out .= '<div style="text-align:center; width:260px; float:left; margin-right:20px; margin-bottom: 15px;"><label title="Use skin=&quot;' . esc_attr($set_it_keys[0]) . '&quot; in shortcodes"><img src="' . esc_url($img_src) . '" style="border:solid 1px #bbb" /><p><input type="radio" name="' . esc_attr($out_name) . '" value="' . esc_attr($set_it_keys[0]) . '"' . $selected . '/> ' . $set_it[$set_it_keys[0]] . '</p></label></div>';
 	}
 	
 	$out .= '</div>';

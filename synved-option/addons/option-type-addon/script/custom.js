@@ -8,7 +8,7 @@
 jQuery(document).ready(function() {
 
 	jQuery('.synved-option-overlay-button').click(function() {
-		tb_show(this.value, SynvedOptionVars.ajaxurl);
+		tb_show(this.value, '#TB_inline');
 		var tb = jQuery("#TB_window");
 
 		if (tb)

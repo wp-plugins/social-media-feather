@@ -6,7 +6,7 @@ function synved_connect_support_social_follow_render()
 	
 	$out = null;
 	
-	$out .= '<div class="synved-connect-notice" style="position:fixed; right:30px; top:60px; width:220px; background:#f2f2f2; font-size:110%; color:#444; padding:16px 18px 16px 18px;">';
+	$out .= '<div class="synved-connect-notice" style="position:fixed; right:30px; top:60px; width:220px; background:#ececec; font-size:110%; color:#444; padding:16px 18px 16px 18px;">';
 	
 	$out .= '<a href="#" style="font-size:8px; position:absolute; top:0px; right:0px; margin-right: 5px;" onclick="' . esc_attr('jQuery(this).parents(\'.synved-connect-notice\').find(\'.notice-extra\').slideToggle(\'slow\'); return false;') . '">' . __('toggle', 'synved-connect') . '</a>';
 	
