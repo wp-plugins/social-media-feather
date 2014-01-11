@@ -34,6 +34,8 @@ The **WordPress social media following** offered by the plugin includes all majo
 
 The plugin also offers widgets for sharing and following buttons that you can place in any widgetized area in your site. Widgets also expose some settings to tweak appearance.
 
+You can disable automatic rendering of social icons for specific posts by using *Custom Fields*. Simply set a custom field of `synved_social_exclude_share` to "yes" (without quotes) to disable rendering of sharing buttons on the post/page or `synved_social_exclude_follow` to "yes" (without quotes) to remove following buttons from the post or alternatively `synved_social_exclude` to disable both.
+
 = Features =
 * Integrated WordPress social sharing
 * Full support for **Retina** and high resolution displays
@@ -103,6 +105,14 @@ For following buttons you can use:
 = How can I see the social icons in action? =
 
 Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio theme demo](http://wpdemo.synved.com/stripefolio/) where you can see the social sharing and following features in action
+
+= How do I disable rendering of sharing / bookmarking buttons on a specific post/page? =
+
+You can achieve this by using *Custom Fields*. Simply set a custom field of `synved_social_exclude_share` to "yes" (without quotes) to disable share buttons on the post or page. Alternatively set `synved_social_exclude` to "yes" (without quotes) to disable both sharing and following.
+
+= How do I disable rendering of follow buttons on a specific post/page? =
+
+You can achieve this by using *Custom Fields*. Simply set a custom field of `synved_social_exclude_follow` to "yes" (without quotes) to remove following buttons from the post or page. Alternatively set `synved_social_exclude` to "yes" (without quotes) to disable both sharing and following.
 
 == Screenshots ==
 
