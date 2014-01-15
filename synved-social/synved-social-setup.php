@@ -281,6 +281,18 @@ $synved_social_options = array(
 					'label' => __('Icon Spacing', 'synved-social'), 
 					'tip' => __('Select the spacing in pixels between the icons', 'synved-social')
 				),
+				'buttons_container' => array(
+					'default' => 'none',
+					'set' => 'none=None,share=Sharing Buttons,follow=Following Buttons,both=Both',
+					'label' => __('Buttons in Container', 'synved-social'), 
+					'tip' => __('Determines whether or not to wrap the buttons in a container, which will affect how the buttons are rendered, based on the "Buttons Container Type" setting.', 'synved-social')
+				),
+				'buttons_container_type' => array(
+					'default' => 'basic',
+					'set' => 'basic=Basic,block=Block',
+					'label' => __('Buttons Container Type', 'synved-social'), 
+					'tip' => __('"Basic" should not affect rendering, while "Block" should display the buttons in their own row. <b>Note</b>: selecting "Block" might not look the way you want if you\'re using Prefix or Postfix markup.', 'synved-social')
+				),
 				'custom_style' => array(
 					'type' => 'style',
 					'label' => __('Extra Styles', 'synved-social'), 
@@ -914,6 +926,8 @@ function synved_social_init()
 			'skin' => __('Specify which skin to use for the icons', 'synved-social'),
 			'size' => sprintf(__('Specify the size for the icons, possible values are %s', 'synved-social'), $size_set),
 			'spacing' => __('Determines how much blank space there will be between the buttons, in pixels', 'synved-social'),
+			'container' => __('Determines whether to wrap the buttons in a container', 'synved-social'),
+			'container_type' => sprintf(__('Determines what type of container to use, possible values are %1$s', 'synved-social'), 'basic, block'),
 			'class' => __('Select additional CSS classes for the buttons, separated by spaces', 'synved-social'),
 		);
 		

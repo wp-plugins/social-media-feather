@@ -126,6 +126,10 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.5.3 =
+* Added buttons container options
+* Misc adjustments
+
 = 1.5.2 =
 * Small fix to default URL
 * Appearance fix in admin settings page

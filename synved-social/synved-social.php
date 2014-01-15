@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.5.2
+Version: 1.5.3
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100050002);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.5.2');
+define('SYNVED_SOCIAL_VERSION', 100050003);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.5.3');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -531,7 +531,7 @@ function synved_social_icon_skin_get_image_list($skin, $name_list, $forced_size 
 function synved_social_button_list_shortcode($atts, $content = null, $code = '', $context = null)
 {
 	$vars_def = array('url' => null, 'title' => null);
-	$params_def = array('skin' => null, 'size' => null, 'spacing' => null, 'class' => null, 'show' => null, 'hide' => null, 'prompt' => null, 'custom1' => null, 'custom2' => null, 'custom3' => null);
+	$params_def = array('skin' => null, 'size' => null, 'spacing' => null, 'container' => null, 'container_type' => null, 'class' => null, 'show' => null, 'hide' => null, 'prompt' => null, 'custom1' => null, 'custom2' => null, 'custom3' => null);
 	$vars = shortcode_atts($vars_def, $atts);
 	$params = shortcode_atts($params_def, $atts);
 	$vars = array_filter($vars);
@@ -804,8 +804,12 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 	}
 	
 	$icon_spacing = synved_option_get('synved_social', 'icon_spacing');
+	$buttons_container = synved_option_get('synved_social', 'buttons_container');
+	$buttons_container_type = synved_option_get('synved_social', 'buttons_container_type');
 	$layout_rtl = synved_option_get('synved_social', 'layout_rtl');
 	$spacing = 5;
+	$container = 'none';
+	$container_type = 'basic';
 	
 	if ($icon_spacing != null)
 	{
@@ -815,6 +819,26 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 	if (isset($params['spacing']))
 	{
 		$spacing = $params['spacing'];
+	}
+	
+	if ($buttons_container != null)
+	{
+		$container = $buttons_container;
+	}
+	
+	if (isset($params['container']))
+	{
+		$container = $params['container'];
+	}
+	
+	if ($buttons_container_type != null)
+	{
+		$container_type = $buttons_container_type;
+	}
+	
+	if (isset($params['container_type']))
+	{
+		$container_type = $params['container_type'];
 	}
 	
 	$class = isset($params['class']) ? $params['class'] : null;
@@ -974,6 +998,18 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 	
 	if ($out_list != null)
 	{
+		$container_tag = 'span';
+		
+		if ($container_type == 'block')
+		{
+			$container_tag = 'div';
+		}
+		
+		if ($container != 'none' && ($container == 'both' || $container == $context))
+		{
+			$out .= '<' . $container_tag . ' class="synved-social-container synved-social-container-' . $context . '">';
+		}
+		
 		foreach ($out_list as $def_key => $def_list)
 		{
 			foreach ($def_list as $button_key => $out_item)
@@ -985,6 +1021,11 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		if (synved_option_get('synved_social', 'show_credit'))
 		{
 			$out .= '<a class="synved-social-credit" target="_blank" rel="nofollow" title="' . __('WordPress Social Media Feather', 'synved-social') . '" href="http://synved.com/wordpress-social-media-feather/" style="color:#444; text-decoration:none; font-size:8px; margin-left:5px;vertical-align:10px;white-space:nowrap;"><span>' . __('by ', 'synved-social') . '</span><img style="display: inline;margin:0;padding:0;width:16px;height:16px;" width="16" height="16" alt="feather" src="' . $uri . '/image/icon.png" /></a>';
+		}
+		
+		if ($container != 'none' && ($container == 'both' || $container == $context))
+		{
+			$out .= '</' . $container_tag . '>';
 		}
 	}
 	
