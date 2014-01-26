@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.5.3
+Version: 1.5.4
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100050003);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.5.3');
+define('SYNVED_SOCIAL_VERSION', 100050004);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.5.4');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -717,8 +717,23 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		
 		if ($id != null)
 		{
-			$src = wp_get_attachment_image_src(get_post_thumbnail_id($id), 'full');
-			$image_src = $src[0];
+			$image_id = get_post_thumbnail_id($id);
+			
+			if ($image_id != null)
+			{
+				$src = wp_get_attachment_image_src($image_id, 'full');
+				$image_src = $src[0];
+			}
+			else
+			{
+				$post = get_post($id);
+				$match = null;
+				
+				if (preg_match('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $match) > 0)
+				{
+					$image_src = $match[1];
+				}
+			}
 		}
 		
 		$vars['image'] = $image_src;
