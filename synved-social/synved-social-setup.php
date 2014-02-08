@@ -154,7 +154,7 @@ $synved_social_options = array(
 				),
 				'automatic_share_position' => array(
 					'default' => 'after_post',
-					'set' => 'after_post=After Post,before_post=Before Post',
+					'set' => 'after_post=After Post,before_post=Before Post,after_before_post=After and Before Post',
 					'label' => __('Share Buttons Position', 'synved-social'), 
 					'tip' => __('Select where the sharing buttons should be placed. Note: placing buttons Before Post might not work in all themes.', 'synved-social')
 				),
@@ -184,7 +184,7 @@ $synved_social_options = array(
 				),
 				'automatic_follow_position' => array(
 					'default' => 'after_post',
-					'set' => 'after_post=After Post,before_post=Before Post',
+					'set' => 'after_post=After Post,before_post=Before Post,after_before_post=After and Before Post',
 					'label' => __('Follow Buttons Position', 'synved-social'), 
 					'tip' => __('Select where the follow buttons should be placed. Note: placing buttons Before Post might not work in all themes.', 'synved-social')
 				),
@@ -771,25 +771,25 @@ function synved_social_wp_the_content($content, $id = null)
 			if (in_array($post_type, $type_list))
 			{
 				$position = synved_option_get('synved_social', 'automatic_share_position');
-				$markup = synved_social_share_markup();
+				$position_before = in_array($position, array('before_post', 'after_before_post'));
+				$position_after = in_array($position, array('after_post', 'after_before_post'));
 				$prefix = synved_option_get('synved_social', 'automatic_share_prefix');
 				$postfix = synved_option_get('synved_social', 'automatic_share_postfix');
-				$markup = $prefix . $markup . $postfix;
-				
-				switch ($position)
+			
+				if ($position_after)
 				{
-					case 'after_post':
-					{
-						$extra_after .= $markup;
-						
-						break;
-					}
-					case 'before_post':
-					{
-						$extra_before .= $markup;
-						
-						break;
-					}
+					$markup = synved_social_share_markup();
+					$markup = $prefix . $markup . $postfix;
+					
+					$extra_after .= $markup;
+				}
+				
+				if ($position_before)
+				{
+					$markup = synved_social_share_markup();
+					$markup = $prefix . $markup . $postfix;
+					
+					$extra_before .= $markup;
 				}
 			}
 		}
@@ -814,38 +814,38 @@ function synved_social_wp_the_content($content, $id = null)
 			if (in_array($post_type, $type_list))
 			{
 				$position = synved_option_get('synved_social', 'automatic_follow_position');
-				$markup = synved_social_follow_markup();
+				$position_before = in_array($position, array('before_post', 'after_before_post'));
+				$position_after = in_array($position, array('after_post', 'after_before_post'));
 				$prefix = synved_option_get('synved_social', 'automatic_follow_prefix');
 				$postfix = synved_option_get('synved_social', 'automatic_follow_postfix');
-				$markup = $prefix . $markup . $postfix;
-				
-				switch ($position)
+			
+				if ($position_after)
 				{
-					case 'after_post':
+					$markup = synved_social_follow_markup();
+					$markup = $prefix . $markup . $postfix;
+					
+					if (synved_option_get('synved_social', 'automatic_follow_before_share'))
 					{
-						if (synved_option_get('synved_social', 'automatic_follow_before_share'))
-						{
-							$extra_after = $markup . $separator_after . $extra_after;
-						}
-						else
-						{
-							$extra_after .= $separator_after . $markup;
-						}
-						
-						break;
+						$extra_after = $markup . $separator_after . $extra_after;
 					}
-					case 'before_post':
+					else
 					{
-						if (synved_option_get('synved_social', 'automatic_follow_before_share'))
-						{
-							$extra_before = $markup . $separator_before . $extra_before;
-						}
-						else
-						{
-							$extra_before .= $separator_before . $markup;
-						}
-						
-						break;
+						$extra_after .= $separator_after . $markup;
+					}
+				}
+				
+				if ($position_before)
+				{
+					$markup = synved_social_follow_markup();
+					$markup = $prefix . $markup . $postfix;
+					
+					if (synved_option_get('synved_social', 'automatic_follow_before_share'))
+					{
+						$extra_before = $markup . $separator_before . $extra_before;
+					}
+					else
+					{
+						$extra_before .= $separator_before . $markup;
 					}
 				}
 			}
