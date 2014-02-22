@@ -126,6 +126,10 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.5.6 =
+* Added %%author%% template variable for URL substitution
+* Minor tweaks
+
 = 1.5.5 =
 * For automatic display, allow positioning of buttons both before and after post content
 * Minor adjustments

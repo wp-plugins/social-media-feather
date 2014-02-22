@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.5.5
+Version: 1.5.6
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100050005);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.5.5');
+define('SYNVED_SOCIAL_VERSION', 100050006);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.5.6');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -754,6 +754,29 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		}
 		
 		$vars['message'] = $message;
+	}
+	
+	if (!isset($vars['author']))
+	{
+		if ($id != null && in_the_loop())
+		{
+			$author = get_the_author_meta('_synved_twitter_handle');
+			
+			if ($author == null)
+			{
+				$author = get_the_author_meta('twitter');
+			}
+			
+			if ($author == null)
+			{
+				$author = get_the_author();
+			}
+			
+			if ($author != null)
+			{
+				$vars['author'] = $author;
+			}
+		}
 	}
 	
 	if (isset($params['class']) && !is_array($params['class']))
