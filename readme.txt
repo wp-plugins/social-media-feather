@@ -126,6 +126,11 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.5.7 =
+* Fixed escaping of quote and double quote characters
+* Added mail as follow provider for "contact us" buttons
+* Minor adjustments
+
 = 1.5.6 =
 * Added %%author%% template variable for URL substitution
 * Minor tweaks

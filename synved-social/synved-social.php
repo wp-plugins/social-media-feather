@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.5.6
+Version: 1.5.7
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100050006);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.5.6');
+define('SYNVED_SOCIAL_VERSION', 100050007);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.5.7');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -301,6 +301,11 @@ function synved_social_service_provider_list($context, $raw = false)
 			'foursquare' => array(
 				'link' => 'https://foursquare.com/myusername',
 				'title' => __('Check out our foursquare feed'),
+				'default-display' => false,
+			),
+			'mail' => array(
+				'link' => 'mailto:mail@example.com?subject=Contact%20Request',
+				'title' => __('Contact Us'),
 				'default-display' => false,
 			),
 		);
@@ -802,11 +807,20 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 	
 	if ($vars != null)
 	{
+		$vars = array_map('wp_kses_decode_entities', $vars);
 		$vars = urlencode_deep($vars);
 		
-		// urlencode converts space characters to + rather than %20 which messes things up
-		$vars['message'] = str_replace('+', '%20', $vars['message']);
-		$vars['title'] = str_replace('+', '%20', $vars['title']);
+		// urlencode_deep converts space characters to + rather than %20 which messes things up
+		$vars['message'] = str_ireplace('+', '%20', $vars['message']);
+		$vars['title'] = str_ireplace('+', '%20', $vars['title']);
+		
+		// urlencode_deep tries to be smart and apostrophes (') to %19 not %27 and double quotes (") to their equivalent open/closed counterparts which doesn't work on most social networks sharings
+		$vars['message'] = str_ireplace('%19', '%27', $vars['message']);
+		$vars['title'] = str_ireplace('%19', '%27', $vars['title']);
+		$vars['message'] = str_ireplace('%1c', '%22', $vars['message']);
+		$vars['title'] = str_ireplace('%1c', '%22', $vars['title']);
+		$vars['message'] = str_ireplace('%1d', '%22', $vars['message']);
+		$vars['title'] = str_ireplace('%1d', '%22', $vars['title']);
 	}
 	
 	$path = synved_social_path();
