@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.5.7
+Version: 1.5.8
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100050007);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.5.7');
+define('SYNVED_SOCIAL_VERSION', 100050008);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.5.8');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -211,7 +211,7 @@ function synved_social_service_provider_list($context, $raw = false)
 	{
 		$provider_list = array(
 			'facebook' => array(
-				'link' => 'http://www.facebook.com/sharer.php?u=%%url%%&t=%%title%%',
+				'link' => 'http://www.facebook.com/sharer.php?u=%%url%%&t=%%title%%&s=100&p[url]=%%url%%&p[images][0]=%%image%%&p[title]=%%title%%',
 				'title' => __('Share on Facebook')
 			),
 			'twitter' => array(
@@ -585,6 +585,7 @@ function synved_social_button_list_markup_item_out($out_item)
 			{
 				if (in_array($attr_name, array('href', 'src')))
 				{
+					$attr_value = str_ireplace(array('[', ']'), array('&#91;', '&#93;'), $attr_value);
 					$attr_value = esc_url($attr_value);
 				}
 				else
@@ -1007,7 +1008,7 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 			{
 				$class_extra = ' ' . implode(' ', $class);
 			}
-		
+			
 			$out_button = array(
 				'tag' => 'a',
 				'class' => 'synved-social-button synved-social-button-' . $context .  ' synved-social-size-' . $size .  ' synved-social-resolution-' . $icon_def . ' synved-social-provider-' . $button_key . $class_extra,

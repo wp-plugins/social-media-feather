@@ -126,6 +126,11 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.5.8 =
+* Attempt suggesting meta values to Facebook (it seems to ignore them at this time though)
+* Fix for esc_url strictness
+* Minor adjustments
+
 = 1.5.7 =
 * Fixed escaping of quote and double quote characters
 * Added mail as follow provider for "contact us" buttons
