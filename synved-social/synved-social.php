@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.5.8
+Version: 1.5.9
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100050008);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.5.8');
+define('SYNVED_SOCIAL_VERSION', 100050009);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.5.9');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -936,6 +936,11 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 	$image_list = array();
 	$icon_resolution = synved_option_get('synved_social', 'icon_resolution');
 	$resolutions = array('normal' => $size, 'hidef' => $size * 2);
+	
+	if (is_feed())
+	{
+		$icon_resolution = 'single';
+	}
 	
 	if ($icon_resolution == 'single')
 	{

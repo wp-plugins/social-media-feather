@@ -126,6 +126,10 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.5.9 =
+* Fix for RSS feeds displaying double resolution images 
+* Minor adjustments
+
 = 1.5.8 =
 * Attempt suggesting meta values to Facebook (it seems to ignore them at this time though)
 * Fix for esc_url strictness
