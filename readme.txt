@@ -126,6 +126,10 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.5.10 =
+* Added date variable
+* Minor adjustments
+
 = 1.5.9 =
 * Fix for RSS feeds displaying double resolution images 
 * Minor adjustments

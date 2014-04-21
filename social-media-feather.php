@@ -4,7 +4,7 @@ Plugin Name: Social Media Feather
 Plugin URI: http://synved.com/wordpress-social-media-feather/
 Description: Super lightweight social media plugin to add nice and effective social sharing and following buttons and icons anywhere on your site without the extra burden
 Author: Synved
-Version: 1.5.9
+Version: 1.5.10
 Author URI: http://synved.com/
 
 LEGAL STATEMENTS
