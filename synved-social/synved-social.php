@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.5.10
+Version: 1.6
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100050010);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.5.10');
+define('SYNVED_SOCIAL_VERSION', 100060000);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.6');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -66,6 +66,7 @@ class SynvedSocialWidget extends WP_Widget
     echo '<div>';
     
     $params = array();
+    $params['alignment'] = 'none';
     
     if ($icon_skin != 'default')
     {
@@ -872,10 +873,12 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 	$icon_spacing = synved_option_get('synved_social', 'icon_spacing');
 	$buttons_container = synved_option_get('synved_social', 'buttons_container');
 	$buttons_container_type = synved_option_get('synved_social', 'buttons_container_type');
+	$buttons_alignment = synved_option_get('synved_social', 'buttons_alignment_' . $context);
 	$layout_rtl = synved_option_get('synved_social', 'layout_rtl');
 	$spacing = 5;
 	$container = 'none';
 	$container_type = 'basic';
+	$alignment = 'none';
 	
 	if ($icon_spacing != null)
 	{
@@ -892,16 +895,45 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		$container = $buttons_container;
 	}
 	
-	if (isset($params['container']))
-	{
-		$container = $params['container'];
-	}
-	
 	if ($buttons_container_type != null)
 	{
 		$container_type = $buttons_container_type;
 	}
 	
+	if ($buttons_alignment != null)
+	{
+		$alignment = $buttons_alignment;
+	}
+	
+	if (isset($params['alignment']))
+	{
+		$alignment = $params['alignment'];
+	}
+	
+	if ($alignment != 'none')
+	{
+		if ($container == 'none')
+		{
+			$container = $context;
+		}
+		else if ($container != 'both' && $container != $context)
+		{
+			$container = 'both';
+		}
+	}
+	
+	// Allow parameters to override container after we decide a default based on selected alignment
+	if (isset($params['container']))
+	{
+		$container = $params['container'];
+	}
+	
+	if ($alignment != 'none')
+	{
+		$container_type = 'block';
+	}
+	
+	// Allow parameters to override container after we decide a default based on selected alignment
 	if (isset($params['container_type']))
 	{
 		$container_type = $params['container_type'];
@@ -1078,7 +1110,9 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		
 		if ($container != 'none' && ($container == 'both' || $container == $context))
 		{
-			$out .= '<' . $container_tag . ' class="synved-social-container synved-social-container-' . $context . '">';
+			$container_style = $alignment != 'none' ? ' style="text-align: ' . $alignment . '"' : null;
+			
+			$out .= '<' . $container_tag . ' class="synved-social-container synved-social-container-' . $context . '"' . $container_style . '>';
 		}
 		
 		foreach ($out_list as $def_key => $def_list)

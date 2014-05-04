@@ -293,6 +293,18 @@ $synved_social_options = array(
 					'label' => __('Buttons Container Type', 'synved-social'), 
 					'tip' => __('"Basic" should not affect rendering, while "Block" should display the buttons in their own row. <b>Note</b>: selecting "Block" might not look the way you want if you\'re using Prefix or Postfix markup.', 'synved-social')
 				),
+				'buttons_alignment_share' => array(
+					'default' => 'none',
+					'set' => 'none=Theme Default,left=Align Left,right=Align Right,center=Align Center',
+					'label' => __('Share Buttons Alignment', 'synved-social'), 
+					'tip' => __('Will attempt at aligning the share buttons accordingly. <strong>Note:</strong> this will enforce "Buttons Container Type" of "Block" and might not work reliably on all themes', 'synved-social')
+				),
+				'buttons_alignment_follow' => array(
+					'default' => 'none',
+					'set' => 'none=Theme Default,left=Align Left,right=Align Right,center=Align Center',
+					'label' => __('Follow Buttons Alignment', 'synved-social'), 
+					'tip' => __('Will attempt at aligning the follow buttons accordingly. <strong>Note:</strong> this will enforce "Buttons Container Type" of "Block" and might not work reliably on all themes', 'synved-social')
+				),
 				'custom_style' => array(
 					'type' => 'style',
 					'label' => __('Extra Styles', 'synved-social'), 
