@@ -124,7 +124,7 @@ $synved_social_options = array(
 				),
 				'share_full_url' => array(
 					'default' => false, 'label' => __('Share Full URL', 'synved-social'), 
-					'tip' => __('Determines whether to always share the full URL or just the post permalink. You can override this for individual posts by setting the "synved_social_share_full_url" custom field to either "yes" or "no"', 'synved-social')
+					'tip' => __('Determines whether to always share the full URL or just the post permalink. You can override this for individual posts by setting the "synved_social_share_full_url" custom field to either "yes" or "no", case sensitive', 'synved-social')
 				),
 				'layout_rtl' => array(
 					'default' => false, 'label' => __('Right To Left Layout', 'synved-social'), 
@@ -150,7 +150,7 @@ $synved_social_options = array(
 			'settings' => array(
 				'automatic_share' => array(
 					'default' => false, 'label' => __('Display Sharing Buttons', 'synved-social'), 
-					'tip' => __('Tries to automatically append sharing buttons to your posts (disable for specific posts by setting custom field synved_social_exclude or synved_social_exclude_share to yes)', 'synved-social')
+					'tip' => __('Tries to automatically append sharing buttons to your posts (disable for specific posts by setting custom field synved_social_exclude or synved_social_exclude_share to "yes", case sensitive)', 'synved-social')
 				),
 				'automatic_share_position' => array(
 					'default' => 'after_post',
@@ -180,7 +180,7 @@ $synved_social_options = array(
 				),
 				'automatic_follow' => array(
 					'default' => false, 'label' => __('Display Follow Buttons', 'synved-social'), 
-					'tip' => __('Tries to automatically append follow buttons to your posts (disable for specific posts by setting custom field synved_social_exclude or synved_social_exclude_follow to yes)', 'synved-social')
+					'tip' => __('Tries to automatically append follow buttons to your posts (disable for specific posts by setting custom field synved_social_exclude or synved_social_exclude_follow to "yes", case sensitive)', 'synved-social')
 				),
 				'automatic_follow_position' => array(
 					'default' => 'after_post',

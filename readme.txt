@@ -126,6 +126,9 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.6.1 =
+* Adjusted some descriptions
+
 = 1.6 =
 * Added alignment options for both sharing and following buttons
 * Minor adjustments
