@@ -78,10 +78,10 @@ The next shortcode will create a list of social following buttons that allow vis
 If you don't want to use shortcodes but instead prefer to use PHP directly, there are 2 PHP functions/template tags you can use.
 
 For sharing buttons you can use:
-`if (function_exists('synved_social_share_markup')) synved_social_share_markup();`
+`if (function_exists('synved_social_share_markup')) echo synved_social_share_markup();`
 
 For following buttons you can use:
-`if (function_exists('synved_social_follow_markup')) synved_social_follow_markup();`
+`if (function_exists('synved_social_follow_markup')) echo synved_social_follow_markup();`
 
 
 = Related Links: =
