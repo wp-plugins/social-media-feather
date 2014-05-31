@@ -791,17 +791,25 @@ function synved_social_wp_the_content($content, $id = null)
 				if ($position_after)
 				{
 					$markup = synved_social_share_markup();
-					$markup = $prefix . $markup . $postfix;
 					
-					$extra_after .= $markup;
+					if ($markup != null)
+					{
+						$markup = $prefix . $markup . $postfix;
+					
+						$extra_after .= $markup;
+					}
 				}
 				
 				if ($position_before)
 				{
 					$markup = synved_social_share_markup();
-					$markup = $prefix . $markup . $postfix;
 					
-					$extra_before .= $markup;
+					if ($markup != null)
+					{
+						$markup = $prefix . $markup . $postfix;
+					
+						$extra_before .= $markup;
+					}
 				}
 			}
 		}
@@ -834,30 +842,38 @@ function synved_social_wp_the_content($content, $id = null)
 				if ($position_after)
 				{
 					$markup = synved_social_follow_markup();
-					$markup = $prefix . $markup . $postfix;
 					
-					if (synved_option_get('synved_social', 'automatic_follow_before_share'))
+					if ($markup != null)
 					{
-						$extra_after = $markup . $separator_after . $extra_after;
-					}
-					else
-					{
-						$extra_after .= $separator_after . $markup;
+						$markup = $prefix . $markup . $postfix;
+					
+						if (synved_option_get('synved_social', 'automatic_follow_before_share'))
+						{
+							$extra_after = $markup . $separator_after . $extra_after;
+						}
+						else
+						{
+							$extra_after .= $separator_after . $markup;
+						}
 					}
 				}
 				
 				if ($position_before)
 				{
 					$markup = synved_social_follow_markup();
-					$markup = $prefix . $markup . $postfix;
 					
-					if (synved_option_get('synved_social', 'automatic_follow_before_share'))
+					if ($markup != null)
 					{
-						$extra_before = $markup . $separator_before . $extra_before;
-					}
-					else
-					{
-						$extra_before .= $separator_before . $markup;
+						$markup = $prefix . $markup . $postfix;
+					
+						if (synved_option_get('synved_social', 'automatic_follow_before_share'))
+						{
+							$extra_before = $markup . $separator_before . $extra_before;
+						}
+						else
+						{
+							$extra_before .= $separator_before . $markup;
+						}
 					}
 				}
 			}
