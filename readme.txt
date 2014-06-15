@@ -126,6 +126,9 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.6.3 =
+* Additional fix for "ghost" prefixes appearing in odd cases for non-single pages
+
 = 1.6.2 =
 * Fix for "ghost" prefixes appearing in certain cases for non-single pages
 

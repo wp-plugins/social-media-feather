@@ -792,7 +792,7 @@ function synved_social_wp_the_content($content, $id = null)
 				{
 					$markup = synved_social_share_markup();
 					
-					if ($markup != null)
+					if (trim($markup) != null)
 					{
 						$markup = $prefix . $markup . $postfix;
 					
@@ -804,7 +804,7 @@ function synved_social_wp_the_content($content, $id = null)
 				{
 					$markup = synved_social_share_markup();
 					
-					if ($markup != null)
+					if (trim($markup) != null)
 					{
 						$markup = $prefix . $markup . $postfix;
 					
@@ -843,7 +843,7 @@ function synved_social_wp_the_content($content, $id = null)
 				{
 					$markup = synved_social_follow_markup();
 					
-					if ($markup != null)
+					if (trim($markup) != null)
 					{
 						$markup = $prefix . $markup . $postfix;
 					
@@ -862,7 +862,7 @@ function synved_social_wp_the_content($content, $id = null)
 				{
 					$markup = synved_social_follow_markup();
 					
-					if ($markup != null)
+					if (trim($markup) != null)
 					{
 						$markup = $prefix . $markup . $postfix;
 					
