@@ -126,6 +126,9 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.6.6 =
+* Updated all images to "optimized" versions to silence certain analytical tools
+
 = 1.6.5 =
 * Fixed issue for correct detection of home page
 
