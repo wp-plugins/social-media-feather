@@ -764,12 +764,12 @@ function synved_social_wp_the_content($content, $id = null)
 		
 		if (!$exclude_share && synved_option_get('synved_social', 'automatic_share_single'))
 		{
-			$exclude_share = !is_singular(synved_option_get('synved_social', 'automatic_share_post_types'));
+			$exclude_share = !(is_singular(synved_option_get('synved_social', 'automatic_share_post_types')) && (is_single($id) || is_page($id)));
 		}
 		
 		if (!$exclude_follow && synved_option_get('synved_social', 'automatic_follow_single'))
 		{
-			$exclude_follow = !is_singular(synved_option_get('synved_social', 'automatic_follow_post_types'));
+			$exclude_follow = !(is_singular(synved_option_get('synved_social', 'automatic_follow_post_types')) && (is_single($id) || is_page($id)));
 		}
 	}
 	
