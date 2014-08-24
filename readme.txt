@@ -126,6 +126,9 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.6.8 =
+* Added short_url variable that always contains the shortened URL
+
 = 1.6.7 =
 * Fix automatic displaying of share/follow buttons on single posts only
 

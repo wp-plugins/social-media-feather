@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.6.7
+Version: 1.6.8
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100060007);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.6.7');
+define('SYNVED_SOCIAL_VERSION', 100060008);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.6.8');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -662,7 +662,7 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		$id = $post->ID;
 	}
 	
-	if (!isset($vars['url']))
+	if (!isset($vars['url']) || !isset($vars['short_url']))
 	{
 		$full_url = synved_option_get('synved_social', 'share_full_url');
 		$home_url = home_url();
@@ -677,6 +677,7 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		}
 		
 		$url = home_url($req_uri);
+		$short_url = $url;
 		
 		if ($id != null && in_the_loop())
 		{
@@ -701,15 +702,18 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 			{
 				$use_shortlinks = synved_option_get('synved_social', 'use_shortlinks');
 				$url = get_permalink($id);
-		
-				if ($use_shortlinks && function_exists('wp_get_shortlink')) 
-				{
-					$short = wp_get_shortlink($id);
+				$short_url = wp_get_shortlink($id);
 			
-					if ($short != null)
+				if ($short_url != null)
+				{
+					if ($use_shortlinks && function_exists('wp_get_shortlink')) 
 					{
-						$url = $short;
+						$url = $short_url;
 					}
+				}
+				else
+				{
+					$short_url = $url;
 				}
 			}
 			else if (is_front_page())
@@ -718,7 +722,15 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 			}
 		}
 		
-		$vars['url'] = $url;
+		if (!isset($vars['url']))
+		{
+			$vars['url'] = $url;
+		}
+		
+		if (!isset($vars['short_url']))
+		{
+			$vars['short_url'] = $short_url;
+		}
 	}
 	
 	if (!isset($vars['image']))
