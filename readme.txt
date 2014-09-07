@@ -126,6 +126,9 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.6.9 =
+* Added url_trimmed variable that trims extra slashes off of the URL
+
 = 1.6.8 =
 * Added short_url variable that always contains the shortened URL
 
