@@ -128,6 +128,9 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.6.11 =
+* Minor tweaks
+
 = 1.6.10 =
 * Minor adjustments
 
