@@ -128,6 +128,9 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.6.13 =
+* Added author_wp variable for built-in WordPress author name
+
 = 1.6.12 =
 * Re-compressed all large icon sets to slightly reduce file size
 
