@@ -17,7 +17,7 @@ Super lightweight, simple, nice, modern looking and effective social media shari
 Check out this introductory tutorial on [how to install and get started with Social Media for WordPress](http://youtu.be/iJAq2nJi6BM) by a helpful user of Social Media Feather!
 
 [embed]
-http://youtu.be/iJAq2nJi6BM
+https://www.youtube.com/watch?v=iJAq2nJi6BM
 [/embed]
 
 Now the only social sharing and bookmarking plugin with full support for the **Retina and high resolution displays** as used in iPad 5 and other devices!
