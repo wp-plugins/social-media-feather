@@ -137,6 +137,9 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.7 =
+* Performance improvements
+
 = 1.6.15 =
 * Fix for PHP notice in rare cases
 * Prevent certain fancybox plugins from trying to open fancybox on share/follow icons

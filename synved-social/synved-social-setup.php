@@ -232,7 +232,7 @@ $synved_social_options = array(
 			'settings' => array(
 				'icon_skin' => array(
 					'default' => 'regular',
-					'set' => synved_option_callback('synved_social_icon_skin_set', 'regular=Regular'),
+					'set' => synved_option_callback('synved_social_cb_icon_skin_set', 'regular=Regular'),
 					'label' => __('Icon Skin', 'synved-social'), 
 					'tip' => synved_option_callback('synved_social_setting_icon_skin_tip',__('Select the default skin to use for the icons', 'synved-social')),
 					'render' => 'synved_social_icon_skin_render'
@@ -367,7 +367,7 @@ function synved_social_section_customize_look_tip($tip, $item)
 	return $tip;
 }
 
-function synved_social_icon_skin_set($set, $item) 
+function synved_social_cb_icon_skin_set($set, $item) 
 {
 	if ($set != null && !is_array($set))
 	{
