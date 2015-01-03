@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.7
+Version: 1.7.1
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100070000);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.7');
+define('SYNVED_SOCIAL_VERSION', 100070001);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.7.1');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -825,7 +825,27 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 	
 	if (!isset($vars['title']))
 	{
+		$title_filter = null;
+		
+		if (is_singular('download') && 'download' == get_post_type(intval($id)))
+		{
+			$priority = has_filter('the_title', 'edd_microdata_title');
+			
+			if ($priority !== false)
+			{
+      	$wp_filter = $GLOBALS['wp_filter'];
+      	
+      	$title_filter = array('function' => 'edd_microdata_title', 'priority' => $priority);
+      	remove_filter('the_title', 'edd_microdata_title', $priority);
+			}
+		}
+		
 		$vars['title'] = html_entity_decode(get_the_title());
+		
+		if ($title_filter != null)
+		{
+    	add_filter('the_title', $title_filter['function'], $title_filter['priority'], 2);
+		}
 	}
 	
 	if (!isset($vars['message']))
@@ -937,6 +957,8 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 		$vars['title'] = str_ireplace('+', '%20', $vars['title']);
 		
 		// urlencode_deep tries to be smart and apostrophes (') to %19 not %27 and double quotes (") to their equivalent open/closed counterparts which doesn't work on most social networks sharings
+		$vars['message'] = str_ireplace('%18', '%27', $vars['message']);
+		$vars['title'] = str_ireplace('%18', '%27', $vars['title']);
 		$vars['message'] = str_ireplace('%19', '%27', $vars['message']);
 		$vars['title'] = str_ireplace('%19', '%27', $vars['title']);
 		$vars['message'] = str_ireplace('%1c', '%22', $vars['message']);

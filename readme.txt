@@ -137,6 +137,10 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.7.1 =
+* Fix for Easy Digital Downloads adding HTML tags to titles that were then posted to social sharing
+* Fix for certain quote characters not being properly converted on share
+
 = 1.7 =
 * Performance improvements
 
