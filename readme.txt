@@ -137,6 +137,10 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.7.3 =
+* Strip HTML from titles in sharing links
+* Fix for certain Fancybox plugins loading lightboxes on sharing images
+
 = 1.7.2 =
 * Added `image` attribute for shortcodes
 * Minor adjustments

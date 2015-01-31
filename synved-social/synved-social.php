@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.7.2
+Version: 1.7.3
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100070002);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.7.2');
+define('SYNVED_SOCIAL_VERSION', 100070003);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.7.3');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -825,27 +825,10 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 	
 	if (!isset($vars['title']))
 	{
-		$title_filter = null;
-		
-		if (is_singular('download') && 'download' == get_post_type(intval($id)))
-		{
-			$priority = has_filter('the_title', 'edd_microdata_title');
-			
-			if ($priority !== false)
-			{
-      	$wp_filter = $GLOBALS['wp_filter'];
-      	
-      	$title_filter = array('function' => 'edd_microdata_title', 'priority' => $priority);
-      	remove_filter('the_title', 'edd_microdata_title', $priority);
-			}
-		}
-		
-		$vars['title'] = html_entity_decode(get_the_title());
-		
-		if ($title_filter != null)
-		{
-    	add_filter('the_title', $title_filter['function'], $title_filter['priority'], 2);
-		}
+		$title = get_the_title();
+		// do this encoding to prevent non-tags things, like emoticons, from being stripped, i.e. <8
+		$title = preg_replace('/\\<\\s*([^[:alpha:]\\/])/', '&lt;$1', $title);
+		$vars['title'] = html_entity_decode(wp_strip_all_tags($title));
 	}
 	
 	if (!isset($vars['message']))
@@ -1188,7 +1171,8 @@ function synved_social_button_list_markup($context, $vars = null, $buttons = nul
 				$class_extra = ' ' . implode(' ', $class);
 			}
 			
-			$class_extra .= ' nofancybox';
+			// don't use "nofancybox" because some plugins/themes interpret it as enabling fancybox
+			$class_extra .= ' nolightbox';
 			
 			$out_button = array(
 				'tag' => 'a',
