@@ -1,4 +1,4 @@
-=== Social Media Feather ===
+=== Social Media Feather - lightweight social media sharing and follow buttons ===
 Contributors: Synved
 Donate link: http://synved.com/wordpress-social-media-feather/
 Tags: shortcode, shortcodes, link, links, url, permalink, permalinks, time, icons, button, buttons, free, content, plugin, Share, sharing, social share, social sharing, page, pages, widget, CSS, list, media, profile, shortlinks, social, social media, Like, twitter, google, Facebook, Reddit, youtube, vimeo, tumblr, instagram, flickr, foursquare, bookmark, bookmarks, bookmarking, pinterest, linkedin, image, edit, manage, mail, Post, posts, Style, seo, title, filter, follow, following, social follow, social following, high resolution, retina, ipad
@@ -13,6 +13,8 @@ Super lightweight, simple, nice, modern looking and effective social media shari
 == Description ==
 
 [WordPress Social Media Feather](http://synved.com/wordpress-social-media-feather/ "Lightweight WordPress social sharing and following") is a super lightweight free social media WordPress plugin that allows you to quickly and painlessly add **social sharing and following** features to all your posts, pages and custom post types.
+
+The plugin supports adding of social buttons for sharing or following (that is, social buttons that link to your social network profiles pages). The social media buttons can be easily and automatically be added to all your posts, pages or any other **custom post types**.
 
 Check out this introductory tutorial on [how to install and get started with Social Media for WordPress](http://youtu.be/iJAq2nJi6BM) by a helpful user of Social Media Feather!
 
@@ -41,7 +43,7 @@ The plugin also offers widgets for sharing and following buttons that you can pl
 You can disable automatic rendering of social icons for specific posts by using *Custom Fields*. Simply set a custom field of `synved_social_exclude_share` to "yes" (without quotes) to disable rendering of sharing buttons on the post/page or `synved_social_exclude_follow` to "yes" (without quotes) to remove following buttons from the post or alternatively `synved_social_exclude` to disable both.
 
 = Features =
-* Integrated WordPress social sharing
+* Integrated WordPress social sharing for all your posts
 * Full support for **Retina** and high resolution displays
 * WordPress social sharing and following widgets
 * Supports all major providers of social features
@@ -71,7 +73,7 @@ You can change the order of displayed buttons by changing the order of keywords:
 This shortcode will create a list of social sharing buttons to share content on your site using the "Wheel" icons skin:
 `[feather_share skin="wheel"]`
 
-This shortcode will create a list of social sharing buttons to share content on your site using the "Wheel" icons skin with a size of 64 pixels:
+This shortcode will create a list of social media sharing buttons to share content on your site using the "Wheel" icons skin with a size of 64 pixels:
 `[feather_share skin="wheel" size="64"]`
 
 The next shortcode will create a list of social following buttons that allow visitors to follow you:
@@ -80,7 +82,7 @@ The next shortcode will create a list of social following buttons that allow vis
 The next shortcode will create a list of social following buttons that allow visitors to follow you, using the "Balloon" icons skin:
 `[feather_follow skin="balloon"]`
 
-The next shortcode will create a list of social following buttons that allow visitors to follow you, using the "Balloon" icons skin with a size of 64 pixels:
+The next shortcode will create a list of social media following buttons that allow visitors to follow you, using the "Balloon" icons skin with a size of 64 pixels:
 `[feather_follow skin="balloon" size="64"]`
 
 = Template Tags =
@@ -106,7 +108,7 @@ For following buttons you can use:
 
 == Installation ==
 
-1. Download the plugin
+1. Download the Social Media Feather plugin
 2. Simply go under the Plugins page, then click on Add new and select the plugin's .zip file
 3. Alternatively you can extract the contents of the zip file directly to your *wp-content/plugins/* folder
 4. Finally, just go under Plugins and activate the plugin
@@ -121,7 +123,7 @@ Have a look at [our site](http://synved.com/) or the [Stripefolio portfolio them
 
 You can achieve this by using *Custom Fields*. Simply set a custom field of `synved_social_exclude_share` to "yes" (without quotes) to disable share buttons on the post or page. Alternatively set `synved_social_exclude` to "yes" (without quotes) to disable both sharing and following.
 
-= How do I disable rendering of follow buttons on a specific post/page? =
+= How do I disable rendering of social profiles follow buttons on a specific post/page? =
 
 You can achieve this by using *Custom Fields*. Simply set a custom field of `synved_social_exclude_follow` to "yes" (without quotes) to remove following buttons from the post or page. Alternatively set `synved_social_exclude` to "yes" (without quotes) to disable both sharing and following.
 
