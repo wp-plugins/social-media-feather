@@ -28,7 +28,7 @@ What sets WordPress Social Media Feather aside from the plethora of other social
 
 In order to achieve this the plugin makes no use of JavaScript and as a consequence it’s **really fast** while still providing all the social media functionality you might need.
 
-By keeping load times at a minimum, you ensure that all the social sharing aspects of your site don’t interfere with those visitors who just want to access the content but are not interested in sharing on social platforms.
+By keeping load times at a minimum, you ensure that all the social sharing aspects of your site don’t interfere with those visitors who just want to access the content but are not interested in sharing on social media platforms.
 
 On the other hand, given the widespread focus on WordPress social media integration, your site will still provide social bookmarks to improve visibility of your posts and content and improve your overall global reach.
 
@@ -38,9 +38,9 @@ It will show social buttons that your users can click to share to facebook or tw
 
 The **WordPress social media following** offered by the plugin includes all major social network providers and tools like Facebook, Twitter, Google+, Pinterest, Linkedin, YouTube, tumblr, instagram, flickr, foursquare, vimeo or RSS.
 
-The plugin also offers widgets for sharing and following buttons that you can place in any widgetized area in your site. Widgets also expose some settings to tweak appearance.
+Our social media plugin also offers widgets for sharing and following buttons that you can place in any widgetized area in your site and the widgets also expose some settings and parameters to tweak the appearance of the social buttons. The plugin also provides shortcodes that can be used for the same purpose, creating both share and follow buttons and allowing selection of visibility of different social media networks or reordering how the various social networks appear (see example shortcodes at the bottom).
 
-You can disable automatic rendering of social icons for specific posts by using *Custom Fields*. Simply set a custom field of `synved_social_exclude_share` to "yes" (without quotes) to disable rendering of sharing buttons on the post/page or `synved_social_exclude_follow` to "yes" (without quotes) to remove following buttons from the post or alternatively `synved_social_exclude` to disable both.
+You can disable automatic rendering of social icons for specific posts by using *Custom Fields*. Simply set a custom field of `synved_social_exclude_share` to "yes" (without quotes) to disable rendering of sharing buttons on the post/page or `synved_social_exclude_follow` to "yes" (without quotes) to remove following buttons from the post or alternatively `synved_social_exclude` to disable both. The *Custom Fields* editor needs to be enabled on your post/page edit screen by clicking at the top right where it says "Screen Options".
 
 = Features =
 * Integrated WordPress social sharing for all your posts
@@ -73,8 +73,11 @@ You can change the order of displayed buttons by changing the order of keywords:
 This shortcode will create a list of social sharing buttons to share content on your site using the "Wheel" icons skin:
 `[feather_share skin="wheel"]`
 
-This shortcode will create a list of social media sharing buttons to share content on your site using the "Wheel" icons skin with a size of 64 pixels:
-`[feather_share skin="wheel" size="64"]`
+This shortcode will create a list of social media sharing buttons to share content on your site using the default icon skin with a size of 64 pixels:
+`[feather_share size="64"]`
+
+You can combine all the parameters above to customize the look, for instance using the "Wheel" icon skin at a size of 64 pixels and only showing Google+, Twitter and Facebook, in that specific order:
+`[feather_share skin="wheel" size="64" show="google_plus, twitter, facebook" hide="reddit, pinterest, linkedin, tumblr, mail"]`
 
 The next shortcode will create a list of social following buttons that allow visitors to follow you:
 `[feather_follow]`
@@ -138,6 +141,9 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 7. This shows the available social sharing and following widgets and their settings 
 
 == Changelog ==
+
+= 1.7.4 =
+* Cache provider list to improve performance when social buttons are shown many times
 
 = 1.7.3 =
 * Strip HTML from titles in sharing links

@@ -3,7 +3,7 @@
 Module Name: Synved Social
 Description: Social sharing and following tools
 Author: Synved
-Version: 1.7.3
+Version: 1.7.4
 Author URI: http://synved.com/
 License: GPLv2
 
@@ -18,8 +18,8 @@ In no event shall Synved Ltd. be liable to you or any third party for any direct
 
 
 define('SYNVED_SOCIAL_LOADED', true);
-define('SYNVED_SOCIAL_VERSION', 100070003);
-define('SYNVED_SOCIAL_VERSION_STRING', '1.7.3');
+define('SYNVED_SOCIAL_VERSION', 100070004);
+define('SYNVED_SOCIAL_VERSION_STRING', '1.7.4');
 
 define('SYNVED_SOCIAL_ADDON_PATH', str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, dirname(__FILE__) . '/addons'));
 
@@ -316,28 +316,41 @@ function synved_social_service_provider_list($context, $raw = false)
 	
 	if ($raw == false)
 	{
-		$return_list = array();
+		global $synved_social;
 		
-		foreach ($provider_list as $provider_name => $provider_item)
+		$list_name = 'provider_list' . '_' . $context;
+	
+		if (!isset($synved_social[$list_name]) || $synved_social[$list_name] == null)
 		{
-			$display = synved_option_get('synved_social', $provider_name . '_display');
-			$link = synved_option_get('synved_social', $provider_name . '_' . $context . '_link');
-			$title = synved_option_get('synved_social', $provider_name . '_' . $context . '_title');
+			$return_list = array();
 		
-			if ($display === null || in_array($display, array($context, 'both')))
+			foreach ($provider_list as $provider_name => $provider_item)
 			{
-				if ($link != null)
+				$display = synved_option_get('synved_social', $provider_name . '_display');
+				$link = synved_option_get('synved_social', $provider_name . '_' . $context . '_link');
+				$title = synved_option_get('synved_social', $provider_name . '_' . $context . '_title');
+		
+				if ($display === null || in_array($display, array($context, 'both')))
 				{
-					$provider_item['link'] = $link;
-				}
+					if ($link != null)
+					{
+						$provider_item['link'] = $link;
+					}
 			
-				if ($title != null)
-				{
-					$provider_item['title'] = $title;
-				}
+					if ($title != null)
+					{
+						$provider_item['title'] = $title;
+					}
 			
-				$return_list[$provider_name] = $provider_item;
+					$return_list[$provider_name] = $provider_item;
+				}
 			}
+			
+			$synved_social[$list_name] = $return_list;
+		}
+		else
+		{
+			$return_list = $synved_social[$list_name];
 		}
 	}
 	
