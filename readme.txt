@@ -142,6 +142,9 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.7.5 =
+* Updated social network links descriptions to be more clear
+
 = 1.7.4 =
 * Cache provider list to improve performance when social buttons are shown many times
 
