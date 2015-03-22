@@ -356,7 +356,7 @@ function synved_social_page_render_fragment($fragment, $out, $params)
 {
 	if ($fragment == 'page-submit-tail')
 	{
-		$out .= '<div style="clear:both; margin-top: -12px;"><a target="_blank" href="http://wordpress.org/support/view/plugin-reviews/social-media-feather?rate=5#postform">If you like the plugin, you can help us by leaving a 5 stars review!</a></div>';
+		$out .= '<div style="clear:both; margin-top: -12px;"><a target="_blank" href="http://wordpress.org/support/view/plugin-reviews/social-media-feather?rate=5#postform" style="font-size:120%"><b>We need your help!</b> If you like the plugin, you can help us by leaving a 5-stars review! It only takes a minute and it\'s free!</a></div>';
 	}
 	
 	return $out;
