@@ -142,6 +142,9 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 == Changelog ==
 
+= 1.7.8 =
+* Disable credit link by default
+ 
 = 1.7.7 =
 * Fixed addon installer's path calculation for rare cases
 

@@ -135,7 +135,7 @@ $synved_social_options = array(
 					'tip' => __('Allow shortcodes in Text widgets', 'synved-social')
 				),
 				'show_credit' => array(
-					'default' => true, 'label' => __('Show Credit', 'synved-social'), 
+					'default' => false, 'label' => __('Show Credit', 'synved-social'), 
 					'tip' => __('Display a small icon with a link to the Social Media Feather page', 'synved-social')
 				),
 				'share_message_default' => array(
