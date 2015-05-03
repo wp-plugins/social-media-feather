@@ -76,6 +76,9 @@ This shortcode will create a list of social sharing buttons to share content on 
 This shortcode will create a list of social media sharing buttons to share content on your site using the default icon skin with a size of 64 pixels:
 `[feather_share size="64"]`
 
+You can add a custom CSS class to your share buttons (or social profiles buttons) using the "class" attribute:
+`[feather_share class="myclass"]`
+
 You can combine all the parameters above to customize the look, for instance using the "Wheel" icon skin at a size of 64 pixels and only showing Google+, Twitter and Facebook, in that specific order:
 `[feather_share skin="wheel" size="64" show="google_plus, twitter, facebook" hide="reddit, pinterest, linkedin, tumblr, mail"]`
 
