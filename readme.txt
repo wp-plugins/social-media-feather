@@ -76,7 +76,7 @@ This shortcode will create a list of social sharing buttons to share content on 
 This shortcode will create a list of social media sharing buttons to share content on your site using the default icon skin with a size of 64 pixels:
 `[feather_share size="64"]`
 
-You can add a custom CSS class to your share buttons (or social profiles buttons) using the "class" attribute:
+You can add a custom CSS class to your share buttons using the "class" attribute:
 `[feather_share class="myclass"]`
 
 You can combine all the parameters above to customize the look, for instance using the "Wheel" icon skin at a size of 64 pixels and only showing Google+, Twitter and Facebook, in that specific order:
@@ -87,6 +87,9 @@ The next shortcode will create a list of social following buttons that allow vis
 
 The next shortcode will create a list of social following buttons that allow visitors to follow you, using the "Balloon" icons skin:
 `[feather_follow skin="balloon"]`
+
+You can add a custom CSS class to your social profiles buttons using the "class" attribute:
+`[feather_follow class="myclass"]`
 
 The next shortcode will create a list of social media following buttons that allow visitors to follow you, using the "Balloon" icons skin with a size of 64 pixels:
 `[feather_follow skin="balloon" size="64"]`
