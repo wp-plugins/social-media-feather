@@ -94,6 +94,9 @@ You can add a custom CSS class to your social profiles buttons using the "class"
 The next shortcode will create a list of social media following buttons that allow visitors to follow you, using the "Balloon" icons skin with a size of 64 pixels:
 `[feather_follow skin="balloon" size="64"]`
 
+You can specify a manual URL to be used for the sharing buttons:
+`[feather_share url="http://www.example.org"]`
+
 = Template Tags =
 
 If you don't want to use shortcodes but instead prefer to use PHP directly, there are 2 PHP functions/template tags you can use.
