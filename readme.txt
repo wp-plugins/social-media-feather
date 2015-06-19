@@ -141,7 +141,7 @@ You can achieve this by using *Custom Fields*. Simply set a custom field of `syn
 
 = How do I change the Twitter button to twit the title of the post instead of the message "Hey, check this out"? =
 
-You can achieve this by using editing the Twitter Share Link under Settings -> Social Media from this:
+You can achieve this by editing the Twitter Share Link under Settings -> Social Media from this:
 `http://twitter.com/share?url=%%url%%&text=%%message%%`
 to this:
 `http://twitter.com/share?url=%%url%%&text=%%title%%`
