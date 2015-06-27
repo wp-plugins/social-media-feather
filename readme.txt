@@ -146,6 +146,14 @@ You can achieve this by editing the Twitter Share Link under Settings -> Social 
 to this:
 `http://twitter.com/share?url=%%url%%&text=%%title%%`
 
+= How do I only show sharing buttons in my sidebar, rather than under each post? =
+
+Go to Settings -> Social Media and under "Automatic Display" uncheck "Display Sharing Buttons" as well as "Display Follow Buttons". Then go under Appearance -> Widgets and add the "Social Media Feather: Sharing" widget to your sidebar.
+
+= How do I only show follow buttons in my sidebar, rather than under each post? =
+
+Go to Settings -> Social Media and under "Automatic Display" uncheck "Display Sharing Buttons" as well as "Display Follow Buttons". Then go under Appearance -> Widgets and add the "Social Media Feather: Follow Us" widget to your sidebar.
+
 == Screenshots ==
 
 1. An example of how the sharing or following buttons appear in the front-end at 64 pixel resolution
