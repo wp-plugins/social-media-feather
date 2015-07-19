@@ -34,7 +34,7 @@ On the other hand, given the widespread focus on WordPress social media integrat
 
 The **WordPress social media sharing** offered by the plugin includes all major social sharing buttons providers like Facebook, Twitter, Google+, reddit, Pinterest, tumblr, Linkedin and even e-mail.
 
-It will show social buttons that your users can click to share to facebook or tweet your posts and pages on your site or submit it to reddit and google plus and all other social sharing networks.
+It will show social buttons that your users can click to share to facebook or tweet your posts and pages on your site or submit it to reddit and google plus or publish it on tumblr and all other social sharing networks.
 
 The **WordPress social media following** offered by the plugin includes all major social network providers and tools like Facebook, Twitter, Google+, Pinterest, Linkedin, YouTube, tumblr, instagram, flickr, foursquare, vimeo or RSS.
 
