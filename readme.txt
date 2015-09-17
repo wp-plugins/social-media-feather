@@ -166,6 +166,9 @@ Go to Settings -> Social Media and under "Automatic Display" uncheck "Display Sh
 
 == Changelog ==
 
+= 1.7.9 =
+* Changed text domain to reflect plugin slug
+
 = 1.7.8 =
 * Disable credit link by default
  
