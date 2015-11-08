@@ -1,7 +1,7 @@
 === Social Media Feather - lightweight social media sharing and follow buttons ===
 Contributors: Synved
 Donate link: http://synved.com/wordpress-social-media-feather/
-Tags: shortcode, shortcodes, link, links, url, permalink, permalinks, time, icons, button, buttons, free, content, plugin, Share, sharing, social share, social sharing, page, pages, widget, CSS, list, media, profile, shortlinks, social, social media, Like, twitter, google, Facebook, Reddit, youtube, vimeo, tumblr, instagram, flickr, foursquare, pinterest, linkedin, social media buttons, bookmark, bookmarks, bookmarking, social links, image, edit, manage, mail, Post, posts, Style, seo, title, filter, follow, following, social following, social follow, Social Media Icons, Social Media Widget, social widget, retina, iOS, iphone, ipad, high resolution, sidebar
+Tags: shortcode, shortcodes, link, links, url, permalink, permalinks, time, icons, button, buttons, free, content, plugin, Share, sharing, social share, social sharing, page, pages, widget, CSS, list, media, profile, shortlinks, social, social media, Like, twitter, google, Facebook, Reddit, youtube, vimeo, tumblr, instagram, flickr, foursquare, pinterest, linkedin, social media buttons, bookmark, bookmarks, bookmarking, social links, image, edit, manage, mail, Post, posts, Style, seo, title, filter, follow, following, social following, social follow, Social Media Icons, Social Media Widget, social widget, retina, iphone, ipad, iOS, high resolution, sidebar
 Requires at least: 3.1
 Tested up to: 4.4
 Stable tag: trunk
@@ -153,6 +153,14 @@ Go to Settings -> Social Media and under "Automatic Display" uncheck "Display Sh
 = How do I only show follow buttons in my sidebar, rather than under each post? =
 
 Go to Settings -> Social Media and under "Automatic Display" uncheck "Display Sharing Buttons" as well as "Display Follow Buttons". Then go under Appearance -> Widgets and add the "Social Media Feather: Follow Us" widget to your sidebar.
+
+= Facebook is not showing the correct title/description/thumbnail, what to I do? =
+
+Social Media Feather always try to communicate to Facebook the correct parameters corresponding to the post being shared, including title and thumbnail but Facebook sometimes decides to ignore this information and instead picks up its own details from the page. This could be because some other plugin on your site is incorrectly specifying some OpenGraph tags in your page, or simply down to a Facebook choice. In both cases the solution is to remove any plugins creating incorrect OpenGraph tags and instead installing a plugin that provides proper OpenGraph tags, like <a href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>.
+
+= I have an OpenGraph plugin which is creating the proper tags but Facebook is not picking them up, what do I do? =
+
+This could be due to Facebook caching your page information. Go to <a href="https://developers.facebook.com/tools/debug/">Facebook Debug Tools</a> and type in the URL to the post/page, then click "Debug". On the next screen that loads, now click on "Fetch new scraping information"; this should clear Facebook's cache of your page.
 
 == Screenshots ==
 
